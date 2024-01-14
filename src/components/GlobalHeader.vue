@@ -31,7 +31,7 @@
       </a-menu>
     </a-col>
     <a-col flex="100px">
-      <div>{{ store.state.user.loginUser.userName ?? "未登录" }}</div>
+      <div>{{ store.state.user?.loginUser?.userName ?? "未登录" }}</div>
     </a-col>
   </a-row>
 </template>
@@ -60,6 +60,13 @@ const doMenuClick = (key: string) => {
 
 // 获取全局状态管理器
 const store = useStore();
+
+// setTimeout(() => {
+//   store.dispatch("user/getLoginUser", {
+//     userName: "KarlexYan",
+//     role: "admin",
+//   });
+// }, 5000);
 </script>
 
 <style setup scoped>
