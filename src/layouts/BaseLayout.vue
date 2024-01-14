@@ -19,8 +19,8 @@
 
 <style scoped>
 #baseLayout .header {
-  margin-bottom: 16px;
-  background: red;
+  margin-bottom: 12px;
+  box-shadow: #eee 1px 1px 5px;
 }
 
 #baseLayout .content {

@@ -1,38 +1,46 @@
 <template>
-  <div id="globalHeader">
-    <a-menu
-      mode="horizontal"
-      :selected-keys="selectedKeys"
-      @menu-item-click="doMenuClick"
-    >
-      <a-menu-item
-        key="0"
-        :style="{ padding: 0, marginRight: '38px' }"
-        disabled
+  <a-row id="globalHeader" style="margin-bottom: 16px" align="center">
+    <a-col flex="auto">
+      <a-menu
+        mode="horizontal"
+        :selected-keys="selectedKeys"
+        @menu-item-click="doMenuClick"
       >
-        <div class="title-bar">
-          <img
-            class="logo"
-            src="https://pic.imgdb.cn/item/65a34cbe871b83018a23e7f2.png"
-            alt=""
-          />
-        </div>
-      </a-menu-item>
-      <a-menu-item
-        v-for="item in routes"
-        :key="item.path"
-        style="font-size: 20px"
-      >
-        {{ item.name }}
-      </a-menu-item>
-    </a-menu>
-  </div>
+        <a-menu-item
+          key="0"
+          :style="{ padding: 0, marginRight: '38px' }"
+          disabled
+        >
+          <div class="title-bar">
+            <img
+              class="logo"
+              src="https://pic.imgdb.cn/item/65a34cbe871b83018a23e7f2.png"
+              alt=""
+              width="200px"
+              height="58px"
+            />
+          </div>
+        </a-menu-item>
+        <a-menu-item
+          v-for="item in routes"
+          :key="item.path"
+          style="font-size: 20px"
+        >
+          {{ item.name }}
+        </a-menu-item>
+      </a-menu>
+    </a-col>
+    <a-col flex="100px">
+      <div>{{ store.state.user.loginUser.userName ?? "未登录" }}</div>
+    </a-col>
+  </a-row>
 </template>
 
 <script setup lang="ts">
 import { routes } from "@/router/routes";
 import { useRouter } from "vue-router";
 import { ref } from "vue";
+import { useStore } from "vuex";
 
 const router = useRouter();
 
@@ -40,7 +48,7 @@ const router = useRouter();
 const selectedKeys = ref(["/"]);
 
 // 路由跳转后,更新选中菜单项
-router.afterEach((to, from, failure) => {
+router.afterEach((to) => {
   selectedKeys.value = [to.path];
 });
 
@@ -49,6 +57,9 @@ const doMenuClick = (key: string) => {
     path: key,
   });
 };
+
+// 获取全局状态管理器
+const store = useStore();
 </script>
 
 <style setup scoped>
@@ -60,6 +71,5 @@ const doMenuClick = (key: string) => {
 .title-bar .logo {
   border-radius: 2px;
   cursor: auto;
-  background: red;
 }
 </style>
