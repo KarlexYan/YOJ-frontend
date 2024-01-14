@@ -7,19 +7,19 @@ export default {
   state: () => ({
     loginUser: {
       userName: "未登录",
-      role: "noLogin"
-    }
+      role: "noLogin",
+    },
   }),
   // 行为
   actions: {
     getLoginUser({ commit, state }, payload) {
-      commit("updateUser", { userName: "KarlexYan" });
-    }
+      commit("updateUser", payload);
+    },
   },
   // 定义状态变更
   mutations: {
     updateUser(state, payload) {
       state.loginUser = payload;
-    }
-  }
+    },
+  },
 } as StoreOptions<any>;

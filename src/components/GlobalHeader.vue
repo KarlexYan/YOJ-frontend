@@ -22,7 +22,7 @@
           </div>
         </a-menu-item>
         <a-menu-item
-          v-for="item in routes"
+          v-for="item in visibleRoutes"
           :key="item.path"
           style="font-size: 20px"
         >
@@ -39,10 +39,15 @@
 <script setup lang="ts">
 import { routes } from "@/router/routes";
 import { useRouter } from "vue-router";
-import { ref } from "vue";
+import { computed, ref } from "vue";
 import { useStore } from "vuex";
+import checkAuth from "@/access/checkAuth";
 
 const router = useRouter();
+// 获取全局状态管理器
+const store = useStore();
+// 获取到登录用户状态
+const loginUser = store.state.user.loginUser;
 
 // 默认主页
 const selectedKeys = ref(["/"]);
@@ -52,21 +57,34 @@ router.afterEach((to) => {
   selectedKeys.value = [to.path];
 });
 
+// 菜单点击方法
 const doMenuClick = (key: string) => {
   router.push({
     path: key,
   });
 };
 
-// 获取全局状态管理器
-const store = useStore();
+// 过滤显示菜单的路由数组
+const visibleRoutes = computed(() => {
+  return routes.filter((item, index) => {
+    if (item.meta?.hideInMenu) {
+      return false;
+    }
+    // 根据权限过滤菜单
+    if (!checkAuth(store.state.user.loginUser, item?.meta?.access as string)) {
+      return false;
+    }
+    return true;
+  });
+});
 
-// setTimeout(() => {
-//   store.dispatch("user/getLoginUser", {
-//     userName: "KarlexYan",
-//     role: "admin",
-//   });
-// }, 5000);
+// 测试用定时器,自动登录
+setTimeout(() => {
+  store.dispatch("user/getLoginUser", {
+    userName: "KarlexYan",
+    userRole: "admin",
+  });
+}, 5000);
 </script>
 
 <style setup scoped>
