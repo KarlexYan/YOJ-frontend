@@ -1,5 +1,10 @@
 <template>
-  <a-row id="globalHeader" style="margin-bottom: 16px" align="center">
+  <a-row
+    id="globalHeader"
+    style="margin-bottom: 16px"
+    align="center"
+    :wrap="false"
+  >
     <a-col flex="auto">
       <a-menu
         mode="horizontal"
