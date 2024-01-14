@@ -1,10 +1,5 @@
 <template>
-  <a-row
-    id="globalHeader"
-    style="margin-bottom: 16px"
-    align="center"
-    :wrap="false"
-  >
+  <a-row id="globalHeader" align="center" :wrap="false">
     <a-col flex="auto">
       <a-menu
         mode="horizontal"
@@ -59,7 +54,7 @@ router.afterEach((to) => {
 
 const doMenuClick = (key: string) => {
   router.push({
-    path: key
+    path: key,
   });
 };
 
