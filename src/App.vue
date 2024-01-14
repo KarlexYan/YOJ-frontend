@@ -13,9 +13,30 @@
 import BaseLayout from "@/layouts/BaseLayout";
 import { useRouter } from "vue-router";
 import { useStore } from "vuex";
+import { onMounted } from "vue";
 
 const router = useRouter();
 const store = useStore();
+
+/**
+ * 全局项目入口,全局单次调用代码,F12彩蛋
+ */
+const doInit = () => {
+  console.log(
+    "\n" +
+      "    __ __                    __              __  __                \n" +
+      "   / //_/  ____ _   _____   / /  ___    _  __\\ \\/ /  ____ _   ____ \n" +
+      "  / ,<    / __ `/  / ___/  / /  / _ \\  | |/_/ \\  /  / __ `/  / __ \\\n" +
+      " / /| |  / /_/ /  / /     / /  /  __/ _>  <   / /  / /_/ /  / / / /\n" +
+      "/_/ |_|  \\__,_/  /_/     /_/   \\___/ /_/|_|  /_/   \\__,_/  /_/ /_/ \n" +
+      "                                                                   \n" +
+      "           真正的努力不是做给别人看，而是用专注和热情持续浇灌。"
+  );
+};
+// 加载时调用
+onMounted(() => {
+  doInit();
+});
 
 router.beforeEach((to, from, next) => {
   // console.log("页面跳转");
