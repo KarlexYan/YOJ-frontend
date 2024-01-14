@@ -1,7 +1,7 @@
 <!--全局基本模板-->
 <template>
   <div id="baseLayout">
-    <a-layout style="height: 400px">
+    <a-layout style="min-height: 100vh">
       <a-layout-header class="header">
         <GlobalHeader />
       </a-layout-header>
@@ -31,7 +31,7 @@
 #baseLayout .footer {
   background: #efefef;
   padding: 16px;
-  position: absolute;
+  position: sticky;
   left: 0;
   right: 0;
   bottom: 0;
