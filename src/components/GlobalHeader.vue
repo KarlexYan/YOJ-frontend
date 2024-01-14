@@ -54,7 +54,7 @@ router.afterEach((to) => {
 
 const doMenuClick = (key: string) => {
   router.push({
-    path: key,
+    path: key
   });
 };
 

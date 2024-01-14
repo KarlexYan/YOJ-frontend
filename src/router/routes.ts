@@ -7,20 +7,20 @@ export const routes: Array<RouteRecordRaw> = [
   {
     path: "/",
     name: "首页",
-    component: HomeView,
+    component: HomeView
   },
   {
     path: "/noAuth",
     name: "404",
-    component: NoAuthView,
+    component: NoAuthView
   },
   {
     path: "/admin",
     name: "管理员页面",
     component: AdminView,
     meta: {
-      access: "canAdmin",
-    },
+      access: "canAdmin"
+    }
   },
   {
     path: "/about",
@@ -29,6 +29,6 @@ export const routes: Array<RouteRecordRaw> = [
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: () =>
-      import(/* webpackChunkName: "about" */ "../views/AboutView.vue"),
-  },
+      import(/* webpackChunkName: "about" */ "../views/AboutView.vue")
+  }
 ];
