@@ -1,5 +1,7 @@
 // 用户信息状态
 import { StoreOptions } from "vuex";
+import AUTH_ENUM from "@/access/authEnum";
+import { UserControllerService } from "../../backapi";
 
 export default {
   namespaced: true,
@@ -7,13 +9,22 @@ export default {
   state: () => ({
     loginUser: {
       userName: "未登录",
-      role: "noLogin",
     },
   }),
   // 行为
   actions: {
-    getLoginUser({ commit, state }, payload) {
-      commit("updateUser", payload);
+    async getLoginUser({ commit, state }, payload) {
+      // 远程获取登录用户
+      const res = await UserControllerService.getLoginUserUsingGet();
+      if (res.code === 0) {
+        commit("updateUser", res.data);
+      } else {
+        commit("updateUser", {
+          ...state.loginUser,
+          userRole: AUTH_ENUM.NOT_LOGIN,
+        });
+      }
+      // commit("updateUser", payload);
     },
   },
   // 定义状态变更
