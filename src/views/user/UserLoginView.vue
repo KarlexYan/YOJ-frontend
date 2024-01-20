@@ -21,6 +21,11 @@
 import { reactive } from "vue";
 import { UserControllerService, UserLoginRequest } from "../../../backapi";
 import message from "@arco-design/web-vue/es/message";
+import { useRouter } from "vue-router";
+import { useStore } from "vuex";
+
+const router = useRouter();
+const store = useStore();
 
 /**
  * 表单信息
@@ -35,9 +40,14 @@ const form = reactive({
  * */
 const handleSubmit = async () => {
   const res = await UserControllerService.userLoginUsingPost(form);
+  // 登录成功,跳转到主页
   if (res.code === 0) {
-    // 登录成功
-    message.success("登录成功" + JSON.stringify(res.data));
+    await store.dispatch("user/getLoginUser");
+    // message.success("登录成功" + JSON.stringify(res.data));
+    router.push({
+      path: "/",
+      replace: true, // 不占用历史记录页面的堆栈,直接替换登录页
+    });
   } else {
     message.error("登录失败" + res.message);
   }
