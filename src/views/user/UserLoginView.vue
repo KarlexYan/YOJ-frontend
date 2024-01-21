@@ -1,6 +1,13 @@
 <template>
   <div class="userLoginView">
-    <a-form :model="form" :style="{ width: '600px' }" @submit="handleSubmit">
+    <h2 style="margin-bottom: 16px">用户登录</h2>
+    <a-form
+      auto-label-width
+      label-align="left"
+      :model="form"
+      @submit="handleSubmit"
+      style="max-width: 480px; margin: 0 auto"
+    >
       <a-form-item field="userAccount" label="用户名">
         <a-input v-model="form.userAccount" placeholder="请输入你的账户" />
       </a-form-item>
@@ -11,7 +18,20 @@
         />
       </a-form-item>
       <a-form-item>
-        <a-button html-type="submit">登录</a-button>
+        <a-button
+          type="primary"
+          html-type="submit"
+          style="width: 480px; height: 40px; font-size: 16px; font-weight: bold"
+        >
+          登录
+        </a-button>
+      </a-form-item>
+      <a-form-item>
+        <a-button
+          style="width: 480px; height: 40px; font-size: 16px; font-weight: bold"
+          @click="goToRegister"
+          >注册
+        </a-button>
       </a-form-item>
     </a-form>
   </div>
@@ -46,11 +66,21 @@ const handleSubmit = async () => {
     // message.success("登录成功" + JSON.stringify(res.data));
     router.push({
       path: "/",
-      replace: true, // 不占用历史记录页面的堆栈,直接替换登录页
+      replace: true, // 不占历史记录页面的堆栈,直接替换登录页
     });
   } else {
     message.error("登录失败" + res.message);
   }
+};
+
+/**
+ * 跳转到注册
+ */
+const goToRegister = () => {
+  router.push({
+    path: "/user/register",
+    replace: true, // 不占历史记录页面的堆栈,直接替换登录页
+  });
 };
 </script>
 <style>
