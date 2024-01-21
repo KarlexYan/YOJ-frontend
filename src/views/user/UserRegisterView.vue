@@ -70,10 +70,12 @@ const handleSubmit = async () => {
   // 登录成功,跳转到主页
   if (res.code === 0) {
     message.success("注册成功");
-    router.push({
-      path: "/user/login",
-      replace: true, // 不占用历史记录页面的堆栈,直接替换登录页
-    });
+    setTimeout(() => {
+      router.push({
+        path: "/user/login",
+        replace: true, // 不占用历史记录页面的堆栈,直接替换登录页
+      });
+    }, 2000);
   } else {
     message.error("注册失败，" + res.message);
   }
