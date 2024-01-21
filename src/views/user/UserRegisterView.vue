@@ -73,7 +73,7 @@ const handleSubmit = async () => {
     setTimeout(() => {
       router.push({
         path: "/user/login",
-        replace: true, // 不占用历史记录页面的堆栈,直接替换登录页
+        replace: true, // 不占用历史记录页面的堆栈,直接替换注册页
       });
     }, 2000);
   } else {
@@ -87,7 +87,7 @@ const handleSubmit = async () => {
 const goToLogin = () => {
   router.push({
     path: "/user/login",
-    replace: true, // 不占用历史记录页面的堆栈,直接替换登录页
+    replace: true, // 不占用历史记录页面的堆栈,直接替换注册页
   });
 };
 </script>
