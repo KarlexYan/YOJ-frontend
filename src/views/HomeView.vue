@@ -2,8 +2,6 @@
   <div class="home">
     <MdEditor :value="mdValue" :handle-change="onMdChange" />
     <CodeEditor :value="codeValue" :handle-change="onCodeChange" />
-    <!--    <img alt="Vue logo" src="../assets/logo.png" />-->
-    <!--    <HelloWorld msg="Welcome to Your Vue.js + TypeScript App" />-->
   </div>
 </template>
 

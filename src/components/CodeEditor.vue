@@ -160,6 +160,8 @@ onMounted(() => {
           "true",
           "false",
           "null",
+          "console",
+          "log",
         ];
         for (var i in sqlStr) {
           suggestions.push({
