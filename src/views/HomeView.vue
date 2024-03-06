@@ -1,19 +1,25 @@
 <template>
   <div class="home">
-    <MdEditor :value="value" :handle-change="onChange" />
-    <img alt="Vue logo" src="../assets/logo.png" />
-    <HelloWorld msg="Welcome to Your Vue.js + TypeScript App" />
+    <MdEditor :value="mdValue" :handle-change="onMdChange" />
+    <CodeEditor :value="codeValue" :handle-change="onCodeChange" />
+    <!--    <img alt="Vue logo" src="../assets/logo.png" />-->
+    <!--    <HelloWorld msg="Welcome to Your Vue.js + TypeScript App" />-->
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref } from "vue";
-import HelloWorld from "@/components/HelloWorld.vue";
-import MdEditor from "@/components/MdEditor.vue"; // @ is an alias to /src
+import MdEditor from "@/components/MdEditor.vue";
+import CodeEditor from "@/components/CodeEditor.vue"; // @ is an alias to /src
 
-const value = ref();
+const mdValue = ref();
+const codeValue = ref();
 
-const onChange = (v: string) => {
-  value.value = v;
+const onMdChange = (v: string) => {
+  mdValue.value = v;
+};
+
+const onCodeChange = (v: string) => {
+  codeValue.value = v;
 };
 </script>
