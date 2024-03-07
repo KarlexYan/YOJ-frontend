@@ -150,8 +150,8 @@
               >删除用例
             </a-button>
             <a-button type="outline" status="success" @click="handleAdd"
-              >新增用例</a-button
-            >
+              >新增用例
+            </a-button>
           </a-space>
         </a-form-item>
       </a-form-item>
@@ -205,7 +205,39 @@ const loadData = async () => {
   if (!id) {
     return;
   }
-  // TODO 后端需要一个不脱敏的返回，以获取原有数据
+  const res = await QuestionControllerService.getQuestionByIdUsingGet(
+    id as any
+  );
+  if (res.code === 0) {
+    form.value = res.data as any;
+    // json转js对象 因为数据库存储的 judgeCase judgeConfig tags 不是直接的数据，需要转义
+    if (!form.value.judgeCase) {
+      form.value.judgeCase = [
+        {
+          input: "",
+          output: "",
+        },
+      ];
+    } else {
+      form.value.judgeCase = JSON.parse(form.value.judgeCase as any);
+    }
+    if (!form.value.judgeConfig) {
+      form.value.judgeConfig = {
+        timeLimit: 1000,
+        memoryLimit: 1000,
+        stackLimit: 1000,
+      };
+    } else {
+      form.value.judgeConfig = JSON.parse(form.value.judgeConfig as any);
+    }
+    if (!form.value.tags) {
+      form.value.tags = [];
+    } else {
+      form.value.tags = JSON.parse(form.value.tags as any);
+    }
+  } else {
+    message.error("加载失败，" + res.message);
+  }
 };
 
 onMounted(() => {
