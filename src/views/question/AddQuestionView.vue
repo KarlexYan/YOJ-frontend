@@ -12,7 +12,6 @@
     </div>
     <a-form
       :model="form"
-      size="medium"
       label-align="left"
       style="font-weight: bold; margin: 0 auto"
     >
@@ -58,7 +57,7 @@
       >
         <MdEditor :value="form.answer" :handle-change="onAnswerChange" />
       </a-form-item>
-      <a-divider :margin="10" />
+      <a-divider :margin="5" />
       <a-form-item
         label="判题配置"
         :content-flex="false"
@@ -68,7 +67,7 @@
       >
         <a-space direction="vertical" style="min-width: 500px">
           <a-form-item
-            field="judgeConig.timeLimit"
+            field="judgeConfig.timeLimit"
             label="时间限制："
             tooltip="单位：ms"
           >
@@ -81,7 +80,7 @@
             />
           </a-form-item>
           <a-form-item
-            field="judgeConig.memoryLimit"
+            field="judgeConfig.memoryLimit"
             label="内存限制："
             tooltip="单位：kb"
           >
@@ -94,7 +93,7 @@
             />
           </a-form-item>
           <a-form-item
-            field="judgeConig.stackLimit"
+            field="judgeConfig.stackLimit"
             label="堆栈限制："
             tooltip="单位：kb"
           >
@@ -108,7 +107,7 @@
           </a-form-item>
         </a-space>
       </a-form-item>
-      <a-divider :margin="10" />
+      <a-divider :margin="5" />
       <a-form-item
         label="测试用例配置："
         :content-flex="false"
@@ -148,15 +147,11 @@
               type="outline"
               status="danger"
               @click="handleDelete(index)"
-              shape="round"
               >删除用例
             </a-button>
-            <a-button
-              type="outline"
-              status="success"
-              @click="handleAdd"
-              shape="round"
-            ></a-button>
+            <a-button type="outline" status="success" @click="handleAdd"
+              >新增用例</a-button
+            >
           </a-space>
         </a-form-item>
       </a-form-item>
@@ -164,8 +159,7 @@
       <a-form-item>
         <a-button
           type="primary"
-          style="min-width: 150px; margin: 0 150px"
-          shape="round"
+          style="min-width: 200px; margin: 0 150px"
           @click="doSubmit"
           >提交
         </a-button>

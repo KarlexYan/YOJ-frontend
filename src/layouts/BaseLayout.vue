@@ -10,7 +10,7 @@
       </a-layout-content>
       <a-layout-footer class="footer">
         <a href="https://github.com/KarlexYan" target="_blank">
-          YOJ By KalrexYan
+          YOJ By KarlexYan
         </a>
       </a-layout-footer>
     </a-layout>
