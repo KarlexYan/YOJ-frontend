@@ -7,6 +7,18 @@
         font-weight: bold;
         margin-bottom: 16px;
       "
+      v-if="updatePage"
+    >
+      修改题目
+    </div>
+    <div
+      style="
+        font-size: 32px;
+        text-align: center;
+        font-weight: bold;
+        margin-bottom: 16px;
+      "
+      v-else
     >
       创建题目
     </div>
