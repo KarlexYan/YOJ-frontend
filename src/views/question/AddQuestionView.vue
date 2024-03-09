@@ -137,7 +137,7 @@
               :key="index"
             >
               <a-input
-                v-model="judgeCaseItem.input"
+                v-model="judgeCaseItem.output"
                 placeholder="请输入测试输出用例"
               />
             </a-form-item>
@@ -278,6 +278,10 @@ const doSubmit = async () => {
       form.value.judgeCase = [];
       form.value.content = "";
       form.value.title = "";
+      await router.push({
+        path: "/manage/question",
+        replace: true,
+      });
     } else {
       message.error("创建失败，" + res.message);
     }
