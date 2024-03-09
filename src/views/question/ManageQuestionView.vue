@@ -16,7 +16,7 @@
     >
       <template #optional="{ record }">
         <a-space>
-          <a-button status="success" @click="doUpdate(record)">修改</a-button>
+          <a-button type="primary" @click="doUpdate(record)">修改</a-button>
           <a-button status="danger" @click="doDelete(record)">删除</a-button>
         </a-space>
       </template>
@@ -30,8 +30,6 @@ import { Question, QuestionControllerService } from "../../../backapi";
 import message from "@arco-design/web-vue/es/message";
 import { useRouter } from "vue-router";
 
-const router = useRouter();
-
 const tableRef = ref();
 const dataList = ref([]);
 const total = ref(0);
@@ -41,7 +39,7 @@ const searchParams = ref({
 });
 
 // 创建一个数据存储获取到的用户信息
-const userInfos = [];
+// const userInfos = [];
 
 const loadData = async () => {
   const res = await QuestionControllerService.listQuestionByPageUsingPost(
@@ -174,12 +172,14 @@ const doDelete = async (question: Question) => {
   }
 };
 
+const router = useRouter();
+
 /**
  * 更新 / 修改操作
  */
 const doUpdate = (question: Question) => {
   router.push({
-    path: "/question/update",
+    path: "/update/question",
     query: {
       id: question.id,
     },

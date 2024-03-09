@@ -169,11 +169,11 @@
 </template>
 
 <script setup lang="ts">
-import { useRoute } from "vue-router";
 import { onMounted, ref } from "vue";
 import { QuestionControllerService } from "../../../backapi";
 import message from "@arco-design/web-vue/es/message";
 import MdEditor from "@/components/MdEditor.vue";
+import { useRoute, useRouter } from "vue-router";
 
 const route = useRoute();
 // 如果页面包含update，视为更新配置
@@ -244,6 +244,8 @@ onMounted(() => {
   loadData();
 });
 
+const router = useRouter();
+
 /**
  * 提交表单
  */
@@ -255,7 +257,12 @@ const doSubmit = async () => {
       form.value
     );
     if (res.code === 0) {
+      // 更新成功返回到管理页面
       message.success("更新成功");
+      await router.push({
+        path: "/manage/question",
+        replace: true,
+      });
     } else {
       message.error("更新失败，" + res.message);
     }
@@ -265,6 +272,12 @@ const doSubmit = async () => {
     );
     if (res.code === 0) {
       message.success("创建成功");
+      // 添加成功后清空表单
+      form.value.answer = "";
+      form.value.tags = [];
+      form.value.judgeCase = [];
+      form.value.content = "";
+      form.value.title = "";
     } else {
       message.error("创建失败，" + res.message);
     }
