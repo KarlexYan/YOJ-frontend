@@ -46,24 +46,6 @@ const loadData = async () => {
     searchParams.value
   );
   if (res.code === 0) {
-    // 根据userId 获取用户信息
-    // const userIds = res.data.records.map((item: any) => item.user);
-    // Promise.all(
-    //   userIds.map((userId: any) =>
-    //     UserControllerService.getUserVoByIdUsingGet(userId)
-    //   )
-    // )
-    //   .then((responses) => {
-    //     // 处理每个响应中获取到的用户信息
-    //     responses.forEach((response) => {
-    //       const userInfo = response.data;
-    //       userInfo.push(userInfo);
-    //     });
-    //   })
-    //   .catch((error) => {
-    //     // 处理错误情况
-    //     console.error("获取用户信息失败：", error);
-    //   });
     dataList.value = res.data.records;
     total.value = res.data.total;
   } else {
