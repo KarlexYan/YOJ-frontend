@@ -1,5 +1,9 @@
 <template>
-  <div id="code-editor" ref="codeEditorRef" style="min-height: 400px"></div>
+  <div
+    id="code-editor"
+    ref="codeEditorRef"
+    style="min-height: 200px; height: 100vh"
+  ></div>
 </template>
 
 <script setup lang="ts">

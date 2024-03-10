@@ -1059,6 +1059,15 @@
   dependencies:
     "highlight.js" "^11.7.0"
 
+"@bytemd/plugin-math@^1.21.0":
+  "integrity" "sha512-SkKTuPX8D+3x3aVRfZbCGg52mUDar54zn/cbnPY7RYqGUQRz0tSXVApC4mJxfzWpxvPnbjkmy742NVriDUoFrw=="
+  "resolved" "https://registry.npmjs.org/@bytemd/plugin-math/-/plugin-math-1.21.0.tgz"
+  "version" "1.21.0"
+  dependencies:
+    "@types/katex" "^0.16.0"
+    "katex" "^0.16.4"
+    "remark-math" "^5.1.1"
+
 "@bytemd/vue-next@^1.21.0":
   "integrity" "sha512-0T60Pr6gJDxX7B44zli7kelGvLXogmskJL8H7iSUH1cRf1EJOmx+WbR/kS8A2we+BoqlcLmzAuCdvE+eeffW5w=="
   "resolved" "https://registry.npmjs.org/@bytemd/vue-next/-/vue-next-1.21.0.tgz"
@@ -1362,6 +1371,11 @@
   "integrity" "sha512-5+fP8P8MFNC+AyZCDxrB2pkZFPGzqQWUzpSeuuVLvm8VMcorNYavBqoFcxK8bQz4Qsbn4oUEEem4wDLfcysGHA=="
   "resolved" "https://registry.npmmirror.com/@types/json-schema/-/json-schema-7.0.15.tgz"
   "version" "7.0.15"
+
+"@types/katex@^0.16.0":
+  "integrity" "sha512-HMwFiRujE5PjrgwHQ25+bsLJgowjGjm5Z8FVSf0N6PwgJrwxH0QxzHYDcKsTfV3wva0vzrpqMTJS2jXPr5BMEQ=="
+  "resolved" "https://registry.npmjs.org/@types/katex/-/katex-0.16.7.tgz"
+  "version" "0.16.7"
 
 "@types/lodash-es@^4.17.7":
   "integrity" "sha512-0NgftHUcV4v34VhXm8QBSftKVXtbkBG3ViCjs6+eJ5a6y6Mi/jiFGPc1sC7QK+9BFhWrURE3EOggmWaSxL9OzQ=="
@@ -2800,7 +2814,7 @@
 
 "commander@^8.3.0":
   "integrity" "sha512-OkTL9umf+He2DZkUq8f8J9of7yL6RJKI24dVITBmNfZBmri9zYZQrKkuXiKhyfPSu8tUhnVBB1iKXevvnlR4Ww=="
-  "resolved" "https://registry.npmmirror.com/commander/-/commander-8.3.0.tgz"
+  "resolved" "https://registry.npmjs.org/commander/-/commander-8.3.0.tgz"
   "version" "8.3.0"
 
 "commondir@^1.0.1":
@@ -4634,6 +4648,13 @@
   optionalDependencies:
     "graceful-fs" "^4.1.6"
 
+"katex@^0.16.0", "katex@^0.16.4":
+  "integrity" "sha512-fsSYjWS0EEOwvy81j3vRA8TEAhQhKiqO+FQaKWp0m39qwOzHVBgAUBIXWj1pB+O2W3fIpNa6Y9KSKCVbfPhyAQ=="
+  "resolved" "https://registry.npmjs.org/katex/-/katex-0.16.9.tgz"
+  "version" "0.16.9"
+  dependencies:
+    "commander" "^8.3.0"
+
 "keyv@^4.5.3":
   "integrity" "sha512-oxVHkHR/EJf2CNXnWxRLW6mg7JyCCUcG0DtEGmL2ctUo1PNTin1PUil+r/+4r5MpVgC/fn1kjsx7mjSujKqIpw=="
   "resolved" "https://registry.npmmirror.com/keyv/-/keyv-4.5.4.tgz"
@@ -4948,6 +4969,15 @@
     "mdast-util-gfm-task-list-item" "^1.0.0"
     "mdast-util-to-markdown" "^1.0.0"
 
+"mdast-util-math@^2.0.0":
+  "integrity" "sha512-8gmkKVp9v6+Tgjtq6SYx9kGPpTf6FVYRa53/DLh479aldR9AyP48qeVOgNZ5X7QUK7nOy4yw7vg6mbiGcs9jWQ=="
+  "resolved" "https://registry.npmjs.org/mdast-util-math/-/mdast-util-math-2.0.2.tgz"
+  "version" "2.0.2"
+  dependencies:
+    "@types/mdast" "^3.0.0"
+    "longest-streak" "^3.0.0"
+    "mdast-util-to-markdown" "^1.3.0"
+
 "mdast-util-phrasing@^3.0.0":
   "integrity" "sha512-WmI1gTXUBJo4/ZmSk79Wcb2HcjPJBzM1nlI/OUWA8yk2X9ik3ffNbBGsU+09BFmXaL1IBb9fiuvq6/KMiNycSg=="
   "resolved" "https://registry.npmjs.org/mdast-util-phrasing/-/mdast-util-phrasing-3.0.1.tgz"
@@ -5135,6 +5165,19 @@
     "micromark-extension-gfm-task-list-item" "^1.0.0"
     "micromark-util-combine-extensions" "^1.0.0"
     "micromark-util-types" "^1.0.0"
+
+"micromark-extension-math@^2.0.0":
+  "integrity" "sha512-es0CcOV89VNS9wFmyn+wyFTKweXGW4CEvdaAca6SWRWPyYCbBisnjaHLjWO4Nszuiud84jCpkHsqAJoa768Pvg=="
+  "resolved" "https://registry.npmjs.org/micromark-extension-math/-/micromark-extension-math-2.1.2.tgz"
+  "version" "2.1.2"
+  dependencies:
+    "@types/katex" "^0.16.0"
+    "katex" "^0.16.0"
+    "micromark-factory-space" "^1.0.0"
+    "micromark-util-character" "^1.0.0"
+    "micromark-util-symbol" "^1.0.0"
+    "micromark-util-types" "^1.0.0"
+    "uvu" "^0.5.0"
 
 "micromark-factory-destination@^1.0.0":
   "integrity" "sha512-XaNDROBgx9SgSChd69pjiGKbV+nfHGDPVYFs5dOoDd7ZnMAE+Cuu91BCpsY8RT2NP9vo/B8pds2VQNCLiu0zhg=="
@@ -6358,6 +6401,16 @@
     "@types/mdast" "^3.0.0"
     "mdast-util-gfm" "^2.0.0"
     "micromark-extension-gfm" "^2.0.0"
+    "unified" "^10.0.0"
+
+"remark-math@^5.1.1":
+  "integrity" "sha512-cE5T2R/xLVtfFI4cCePtiRn+e6jKMtFDR3P8V3qpv8wpKjwvHoBA4eJzvX+nVrnlNy0911bdGmuspCSwetfYHw=="
+  "resolved" "https://registry.npmjs.org/remark-math/-/remark-math-5.1.1.tgz"
+  "version" "5.1.1"
+  dependencies:
+    "@types/mdast" "^3.0.0"
+    "mdast-util-math" "^2.0.0"
+    "micromark-extension-math" "^2.0.0"
     "unified" "^10.0.0"
 
 "remark-parse@^10.0.1":

@@ -7,6 +7,7 @@ import NoAuthView from "@/views/NoAuthView.vue";
 import AddQuestionView from "@/views/question/AddQuestionView.vue";
 import ManageQuestionView from "@/views/question/ManageQuestionView.vue";
 import BrowseQuestionView from "@/views/question/BrowseQuestionView.vue";
+import ViewQuestionView from "@/views/question/ViewQuestionView.vue";
 import AUTH_ENUM from "@/access/authEnum";
 
 export const routes: Array<RouteRecordRaw> = [
@@ -62,6 +63,16 @@ export const routes: Array<RouteRecordRaw> = [
     component: ManageQuestionView,
     meta: {
       access: AUTH_ENUM.ADMIN,
+    },
+  },
+  {
+    path: "/view/question/:id",
+    name: "在线做题",
+    component: ViewQuestionView,
+    props: true,
+    meta: {
+      // access: AUTH_ENUM.USER,
+      hideInMenu: true,
     },
   },
   {
