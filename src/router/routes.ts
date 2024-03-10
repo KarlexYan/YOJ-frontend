@@ -6,6 +6,7 @@ import UserRegisterView from "@/views/user/UserRegisterView.vue";
 import NoAuthView from "@/views/NoAuthView.vue";
 import AddQuestionView from "@/views/question/AddQuestionView.vue";
 import ManageQuestionView from "@/views/question/ManageQuestionView.vue";
+import BrowseQuestionView from "@/views/question/BrowseQuestionView.vue";
 import AUTH_ENUM from "@/access/authEnum";
 
 export const routes: Array<RouteRecordRaw> = [
@@ -33,6 +34,11 @@ export const routes: Array<RouteRecordRaw> = [
     path: "/",
     name: "首页",
     component: HomeView,
+  },
+  {
+    path: "/browse/question",
+    name: "题目列表",
+    component: BrowseQuestionView,
   },
   {
     path: "/add/question",

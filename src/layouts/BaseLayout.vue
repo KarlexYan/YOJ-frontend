@@ -25,7 +25,6 @@
 
 #baseLayout .content {
   margin-bottom: 16px;
-  background: linear-gradient(to right, #bbb, #eee);
   padding: 20px;
 }
 
