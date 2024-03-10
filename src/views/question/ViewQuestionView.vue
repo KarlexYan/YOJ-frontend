@@ -34,8 +34,16 @@
             </a-card>
           </a-tab-pane>
           <a-tab-pane key="comment" title="评论区" disabled></a-tab-pane>
-          <a-tab-pane key="answer" title="答案" disabled> </a-tab-pane>
+          <a-tab-pane key="answer" title="答案" disabled></a-tab-pane>
         </a-tabs>
+        <a-divider size="0" />
+        <a-button
+          type="primary"
+          style="min-width: 200px; margin-left: 280px"
+          size="large"
+          @click="doSubmit"
+          >提交代码
+        </a-button>
       </a-col>
 
       <a-col :md="12" :xs="24">
@@ -146,7 +154,7 @@ const doSubmit = async () => {
     message.success("提交成功");
     // 返回题目列表页
     await router.push({
-      path: "/manage/question",
+      path: "/browse/question",
       replace: true,
     });
   } else {
