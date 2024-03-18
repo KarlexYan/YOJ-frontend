@@ -1,13 +1,23 @@
 <template>
   <div id="browseQuestionView">
-    <a-form :model="searchParams" layout="inline">
-      <a-form-item field="title" label="题目名称" style="min-width: 240px">
+    <a-form :model="searchParams" layout="inline" style="margin-left: 300px">
+      <a-form-item
+        field="title"
+        label="题目"
+        tooltip="请输入搜索的题目"
+        style="min-width: 280px"
+      >
         <a-input
           v-model="searchParams.title"
-          placeholder="请输入要查询的题目名称"
+          placeholder="请输入要查询的题目"
         />
       </a-form-item>
-      <a-form-item field="tags" label="标签" style="min-width: 240px">
+      <a-form-item
+        field="tags"
+        label="标签"
+        tooltip="请输入查询题目标签"
+        style="min-width: 280px"
+      >
         <a-input-tag
           v-model="searchParams.tags"
           placeholder="请输入查询的题目标签"
@@ -19,6 +29,8 @@
     </a-form>
     <a-divider size="0" />
     <a-table
+      column-resizable
+      wrapper
       :ref="tableRef"
       :columns="columns"
       :data="dataList"
@@ -28,12 +40,19 @@
         current: searchParams.current,
         total,
         showJumper: true,
+        showPageSize: true,
       }"
       @page-change="onPageChange"
+      @pageSizeChange="onPageSizeChange"
     >
       <template #tags="{ record }">
         <a-space wrap>
-          <a-tag v-for="(tag, index) of record.tags" :key="index" color="green">
+          <a-tag
+            size="medium"
+            v-for="(tag, index) of record.tags"
+            :key="index"
+            color="green"
+          >
             {{ tag }}
           </a-tag>
         </a-space>
@@ -41,14 +60,16 @@
       <template #acceptedRate="{ record }">
         {{
           `${
-            record.submitNum
-              ? ((record.acceptedNum / record.submitNum) * 100).toFixed(1)
-              : "0"
+            Math.round(
+              (record.submitNum > 0
+                ? (record.acceptedNum / record.submitNum) * 100
+                : "0" * 100) * 100
+            ) / 100
           }% (${record.acceptedNum}/${record.submitNum})`
         }}
       </template>
       <template #createTime="{ record }">
-        {{ moment(record.createTime).format("YYYY-MM-DD") }}
+        {{ moment(record.createTime).format("YYYY-MM-DD HH:mm") }}
       </template>
       <template #optional="{ record }">
         <a-space>
@@ -84,9 +105,11 @@ const searchParams = ref<QuestionQueryRequest>({
 });
 
 const loadData = async () => {
-  const res = await QuestionControllerService.listQuestionVoByPageUsingPost(
-    searchParams.value
-  );
+  const res = await QuestionControllerService.listQuestionVoByPageUsingPost({
+    ...searchParams.value,
+    sortField: "createTime",
+    sortOrder: "descend",
+  });
   if (res.code === 0) {
     dataList.value = res.data.records;
     total.value = res.data.total;
@@ -111,23 +134,37 @@ onMounted(() => {
 
 const columns = [
   {
-    title: "题目名称",
+    title: "题号",
+    dataIndex: "id",
+    align: "center",
+  },
+  {
+    title: "题目",
     dataIndex: "title",
+    align: "center",
   },
   {
     title: "标签",
     slotName: "tags",
+    align: "center",
   },
   {
     title: "通过率",
     slotName: "acceptedRate",
+    align: "center",
   },
   {
     title: "创建时间",
     slotName: "createTime",
+    align: "center",
+    sortable: {
+      sortDirections: ["ascend"],
+    },
   },
   {
+    title: "操作",
     slotName: "optional",
+    align: "center",
   },
 ];
 
@@ -142,6 +179,17 @@ const onPageChange = (page: number) => {
   };
 };
 
+/**
+ * 分页大小
+ * @param size
+ */
+const onPageSizeChange = (size: number) => {
+  searchParams.value = {
+    ...searchParams.value,
+    pageSize: size,
+  };
+};
+
 const router = useRouter();
 
 /**
@@ -150,7 +198,7 @@ const router = useRouter();
  */
 const toQuestionPage = (question: Question) => {
   router.push({
-    path: `/view/question/${question.id}`,
+    path: `/question/view/${question.id}`,
   });
 };
 
@@ -170,5 +218,6 @@ const doSubmit = () => {
 #browseQuestionView {
   max-width: 1280px;
   margin: 0 auto;
+  border-radius: 10px;
 }
 </style>

@@ -22,16 +22,12 @@ const checkAuth = (loginUser: any, needAuth = AUTH_ENUM.NOT_LOGIN) => {
   }
   // 如果需要管理员权限才能访问
   if (needAuth === AUTH_ENUM.ADMIN) {
-    // 如果用户没登录,那么表示无权限
-    if (loginUserAuth === AUTH_ENUM.NOT_LOGIN) {
-      return false;
-    }
     // 如果用户不为管理员,表示没权限
     if (loginUserAuth !== AUTH_ENUM.ADMIN) {
       return false;
     }
-    return true;
   }
+  return true;
 };
 
 export default checkAuth;

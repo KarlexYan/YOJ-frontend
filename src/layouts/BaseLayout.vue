@@ -9,7 +9,7 @@
         <router-view />
       </a-layout-content>
       <a-layout-footer class="footer">
-        <a href="https://github.com/KarlexYan" target="_blank">
+        <a href="https://gitee.com/karlexyan" target="_blank">
           YOJ By KarlexYan
         </a>
       </a-layout-footer>
@@ -18,8 +18,13 @@
 </template>
 
 <style scoped>
+#baseLayout {
+  margin: 0 20px;
+}
+
 #baseLayout .header {
-  margin-bottom: 12px;
+  height: 60px;
+  margin: 5px;
   box-shadow: #eee 1px 1px 5px;
 }
 
@@ -29,7 +34,6 @@
 }
 
 #baseLayout .footer {
-  background: #efefef;
   padding: 16px;
   position: sticky;
   left: 0;

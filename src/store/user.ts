@@ -24,7 +24,6 @@ export default {
           userRole: AUTH_ENUM.NOT_LOGIN,
         });
       }
-      // commit("updateUser", payload);
     },
   },
   // 定义状态变更

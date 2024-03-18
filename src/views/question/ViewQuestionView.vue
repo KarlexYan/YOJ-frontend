@@ -9,13 +9,13 @@
                 title="判题条件"
                 :column="{ xs: 1, md: 2, lg: 3 }"
               >
-                <a-descriptions-item label="时间限制">
+                <a-descriptions-item label="时间限制（ms）">
                   {{ question.judgeConfig.timeLimit ?? 0 }}
                 </a-descriptions-item>
-                <a-descriptions-item label="内存限制">
+                <a-descriptions-item label="内存限制（KB）">
                   {{ question.judgeConfig.memoryLimit ?? 0 }}
                 </a-descriptions-item>
-                <a-descriptions-item label="堆栈限制">
+                <a-descriptions-item label="堆栈限制（KB）">
                   {{ question.judgeConfig.stackLimit ?? 0 }}
                 </a-descriptions-item>
               </a-descriptions>
@@ -59,15 +59,15 @@
               placeholder="请选择编程语言"
             >
               <a-option>java</a-option>
-              <a-option>cpp</a-option>
-              <a-option>go</a-option>
-              <a-option>html</a-option>
+              <a-option disabled>cpp</a-option>
+              <a-option disabled>go</a-option>
+              <a-option disabled>html</a-option>
             </a-select>
           </a-form-item>
         </a-form>
         <CodeEditor
-          :value="form.submitCode as string"
           :language="form.submitLanguage"
+          :value="form.submitCode"
           :handle-change="changeCode"
         />
       </a-col>
@@ -83,9 +83,9 @@ import {
   QuestionVO,
 } from "../../../backapi";
 import message from "@arco-design/web-vue/es/message";
-import { useRouter } from "vue-router";
 import MdViewer from "@/components/MdViewer.vue";
 import CodeEditor from "@/components/CodeEditor.vue";
+import { useRouter } from "vue-router";
 
 /**
  * 定义组件属性类型
@@ -112,10 +112,9 @@ const loadData = async () => {
     props.id as any
   );
   if (res.code === 0) {
-    message.success("加载成功");
     question.value = res.data;
   } else {
-    message.error("加载失败，", res.message);
+    message.error("加载失败，" + res.message);
   }
 };
 
@@ -127,7 +126,7 @@ const codeDefaultValue = ref(
     "    public static void main(String[] args) {\n" +
     "        int a = Integer.parseInt(args[0]);\n" +
     "        int b = Integer.parseInt(args[1]);\n" +
-    "        System.out.println((a + b));\n" +
+    "        System.out.println(a + b);\n" +
     "    }\n" +
     "}\n"
 );
@@ -155,7 +154,7 @@ const doSubmit = async () => {
     message.success("提交成功");
     // 返回题目列表页
     await router.push({
-      path: "/browse/question",
+      path: "/",
       replace: true,
     });
   } else {
@@ -181,8 +180,10 @@ const changeCode = (value: string) => {
 
 <style>
 #viewQuestionView {
-  max-width: 1400px;
+  max-width: 1600px;
   margin: 0 auto;
+  box-shadow: 0px 0px 10px rgba(35, 7, 7, 0.21);
+  border-radius: 10px;
 }
 
 #viewQuestionView .arco-space-horizontal .arco-space-item {

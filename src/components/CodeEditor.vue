@@ -12,26 +12,24 @@ import { defineProps, onMounted, ref, toRaw, watch, withDefaults } from "vue";
 
 const codeEditorRef = ref();
 const codeEditor = ref();
-const value = ref("Hello World");
 
 /**
  * 定义组件属性类型
  */
 interface Props {
   value: string;
+  language?: string;
   handleChange: (v: string) => void;
 }
 
 /**
  * 组件指定初始值
- *
- *
  */
 const props = withDefaults(defineProps<Props>(), {
   value: () => "",
   language: () => "java", // 默认java
   handleChange: (v: string) => {
-    console.log("当前值：", v);
+    // console.log("当前值：", v);
   },
 });
 
@@ -84,9 +82,9 @@ onMounted(() => {
     props.handleChange(toRaw(codeEditor.value).getValue());
   });
 
-  // TODO 代码提示
+  // 代码提示
   monaco.languages.registerCompletionItemProvider("java", {
-    provideCompletionItems: function (model, position, context, token) {
+    provideCompletionItems: function (model, position) {
       // 获取当前行数
       const line = position.lineNumber;
       // 获取当前列数
@@ -111,7 +109,7 @@ onMounted(() => {
       var suggestions = [];
       if (sym == "$") {
         //...
-        //拦截到用户输入$，开始设置提示内容，同else中代码一致，自行拓展
+        //拦截到用户输入$，开始设置提示内容
       } else {
         //直接提示，以下为java语句关键词提示
         var sqlStr = [

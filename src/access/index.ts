@@ -2,9 +2,9 @@ import router from "@/router";
 import store from "@/store";
 import checkAccess from "@/access/checkAuth";
 import AUTH_ENUM from "@/access/authEnum";
+import message from "@arco-design/web-vue/es/message";
 
 router.beforeEach(async (to, from, next) => {
-  console.log("当前登录用户信息：", store.state.user.loginUser);
   let loginUser = store.state.user.loginUser;
   // 如果之前没登陆过,自动登录
   if (!loginUser || !loginUser.userRole) {
@@ -23,15 +23,16 @@ router.beforeEach(async (to, from, next) => {
       !loginUser.userRole ||
       loginUser.userRole === AUTH_ENUM.NOT_LOGIN
     ) {
+      message.warning("请登录后再使用");
       // 重定向 登录后回到原界面
       next(`/user/login?redirect=${to.fullPath}`);
       return;
     }
-  }
-  // 如果已登录,权限不足,跳转无权限页面
-  if (!checkAccess(loginUser, needAuth)) {
-    next("/noAuth");
-    return;
+    // 如果已登录,权限不足,跳转无权限页面
+    if (!checkAccess(loginUser, needAuth)) {
+      next("/noAuth");
+      return;
+    }
   }
   next();
 });

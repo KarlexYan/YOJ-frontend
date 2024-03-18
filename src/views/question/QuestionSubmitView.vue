@@ -1,10 +1,10 @@
 <template>
   <div id="questionSubmitView">
     <a-form :model="searchParams" layout="inline" style="margin-left: 300px">
-      <a-form-item field="questionId" label="题号" tooltip="请输入题目Id">
+      <a-form-item field="questionId" label="题号" tooltip="请输入题目ID">
         <a-input
           v-model="searchParams.questionId"
-          placeholder="请输入搜索题号"
+          placeholder="请输入查询题号"
         />
       </a-form-item>
       <a-form-item
@@ -18,7 +18,6 @@
         >
           <a-option>java</a-option>
           <a-option>cpp</a-option>
-          <a-option>csharp</a-option>
           <a-option>go</a-option>
           <a-option>python</a-option>
         </a-select>
@@ -29,7 +28,7 @@
         </a-button>
       </a-form-item>
       <a-form-item>
-        <a-button type="primary" @click="loadData">刷新 </a-button>
+        <a-button type="primary" @click="loadData">刷新</a-button>
       </a-form-item>
     </a-form>
     <a-divider size="0" />
@@ -56,7 +55,7 @@
             size="medium"
             v-for="(info, index) of record.judgeInfo"
             :key="index"
-            color="orangered"
+            :color="colors[index.length % colors.length]"
           >
             {{
               `${
@@ -75,7 +74,7 @@
         {{ moment(record.createTime).format("YYYY-MM-DD HH:mm:ss") }}
       </template>
       <template #questionId="{ record }">
-        <a-link status="success" @click="toQuestionPage(record)"
+        <a-link @click="toQuestionPage(record)"
           >{{ record.questionId }}
         </a-link>
       </template>
@@ -104,12 +103,16 @@ const tableRef = ref();
 
 const dataList = ref([]);
 const total = ref(0);
+
+// 搜索请求
 const searchParams = ref<QuestionSubmitQueryRequest>({
   questionId: undefined,
   submitLanguage: undefined,
   pageSize: 10,
   current: 1,
 });
+
+const colors = ["orange", "green", "blue", "red"];
 
 const loadData = async () => {
   const res = await QuestionControllerService.listQuestionSubmitByPageUsingPost(
@@ -119,10 +122,8 @@ const loadData = async () => {
       sortOrder: "descend",
     }
   );
-  console.log(res.data.records);
   if (res.code === 0) {
     dataList.value = res.data.records;
-    console.log(dataList.value);
     total.value = res.data.total;
   } else {
     message.error("加载失败，" + res.message);

@@ -4,7 +4,7 @@ import axios from "axios";
 axios.interceptors.request.use(
   function (config) {
     // Do something before request is sent
-    console.log("请求拦截器");
+    // console.log("请求拦截器");
     return config;
   },
   function (error) {
@@ -18,7 +18,7 @@ axios.interceptors.response.use(
   function (response) {
     // Any status code that lie within the range of 2xx cause this function to trigger
     // Do something with response data
-    console.log("响应拦截器");
+    // console.log("响应拦截器");
     return response;
   },
   function (error) {

@@ -7,20 +7,11 @@
         font-weight: bold;
         margin-bottom: 16px;
       "
-      v-if="updatePage"
     >
-      修改题目
-    </div>
-    <div
-      style="
-        font-size: 32px;
-        text-align: center;
-        font-weight: bold;
-        margin-bottom: 16px;
-      "
-      v-else
-    >
-      创建题目
+      <template v-if="route.path.startsWith('/question/update')">
+        修改题目信息
+      </template>
+      <template v-else>创建题目</template>
     </div>
     <a-form
       :model="form"
@@ -132,7 +123,7 @@
           :key="index"
           no-style
         >
-          <a-space direction="vertical" style="min-width: 500px">
+          <a-space direction="vertical" style="min-width: 650px">
             <a-form-item
               :field="`form.judgeCase[${index}].input`"
               :label="`输入用例-${index}：`"
@@ -187,6 +178,7 @@ import message from "@arco-design/web-vue/es/message";
 import MdEditor from "@/components/MdEditor.vue";
 import { useRoute, useRouter } from "vue-router";
 
+const router = useRouter();
 const route = useRoute();
 // 如果页面包含update，视为更新配置
 const updatePage = route.path.includes("update");
@@ -256,13 +248,11 @@ onMounted(() => {
   loadData();
 });
 
-const router = useRouter();
-
 /**
  * 提交表单
  */
 const doSubmit = async () => {
-  console.log(form.value); // 打印提交的数据，后续可删除
+  // console.log(form.value); // 打印提交的数据，后续可删除
   // 区分创建还是更新
   if (updatePage) {
     const res = await QuestionControllerService.updateQuestionUsingPost(
@@ -272,7 +262,7 @@ const doSubmit = async () => {
       // 更新成功返回到管理页面
       message.success("更新成功");
       await router.push({
-        path: "/manage/question",
+        path: "/question/manage",
         replace: true,
       });
     } else {
@@ -291,7 +281,7 @@ const doSubmit = async () => {
       form.value.content = "";
       form.value.title = "";
       await router.push({
-        path: "/manage/question",
+        path: "/question/manage",
         replace: true,
       });
     } else {
@@ -331,6 +321,17 @@ const onAnswerChange = (value: string) => {
 <style scoped>
 #addQuestionView {
   margin: 0 auto;
-  max-width: 900px;
+  padding: 10px;
+  max-width: 1000px;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(35, 7, 7, 0.21);
+}
+
+.arco-form-item-label-col-left {
+  justify-content: flex-end;
+}
+
+:deep(.bytemd-fullscreen.bytemd) {
+  z-index: 100;
 }
 </style>

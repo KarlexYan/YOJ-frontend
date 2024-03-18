@@ -55,6 +55,5 @@
   right: 0;
   bottom: 0;
   text-align: center;
-  /*background: #f7f8fa;*/
 }
 </style>
