@@ -1,5 +1,4 @@
 import { RouteRecordRaw } from "vue-router";
-import HomeView from "@/views/HomeView.vue";
 import UserLayout from "@/layouts/UserLayout.vue";
 import UserLoginView from "@/views/user/UserLoginView.vue";
 import UserRegisterView from "@/views/user/UserRegisterView.vue";
@@ -8,6 +7,7 @@ import AddQuestionView from "@/views/question/AddQuestionView.vue";
 import ManageQuestionView from "@/views/question/ManageQuestionView.vue";
 import BrowseQuestionView from "@/views/question/BrowseQuestionView.vue";
 import ViewQuestionView from "@/views/question/ViewQuestionView.vue";
+import QuestionSubmitView from "@/views/question/QuestionSubmitView.vue";
 import AUTH_ENUM from "@/access/authEnum";
 
 export const routes: Array<RouteRecordRaw> = [
@@ -33,8 +33,8 @@ export const routes: Array<RouteRecordRaw> = [
   },
   {
     path: "/",
-    name: "首页",
-    component: HomeView,
+    name: "主页",
+    component: BrowseQuestionView,
   },
   {
     path: "/browse/question",
@@ -42,11 +42,19 @@ export const routes: Array<RouteRecordRaw> = [
     component: BrowseQuestionView,
   },
   {
+    path: "/question_submit",
+    name: "题目提交记录",
+    component: QuestionSubmitView,
+    meta: {
+      access: AUTH_ENUM.ADMIN || AUTH_ENUM.USER,
+    },
+  },
+  {
     path: "/add/question",
     name: "创建题目",
     component: AddQuestionView,
     meta: {
-      access: AUTH_ENUM.ADMIN,
+      access: AUTH_ENUM.ADMIN || AUTH_ENUM.USER,
     },
   },
   {
@@ -55,6 +63,7 @@ export const routes: Array<RouteRecordRaw> = [
     component: AddQuestionView,
     meta: {
       access: AUTH_ENUM.ADMIN,
+      hideInMenu: true,
     },
   },
   {
@@ -71,7 +80,7 @@ export const routes: Array<RouteRecordRaw> = [
     component: ViewQuestionView,
     props: true,
     meta: {
-      // access: AUTH_ENUM.USER,
+      access: AUTH_ENUM.ADMIN || AUTH_ENUM.USER,
       hideInMenu: true,
     },
   },

@@ -332,7 +332,5 @@ const onAnswerChange = (value: string) => {
 #addQuestionView {
   margin: 0 auto;
   max-width: 900px;
-  background: linear-gradient(to right, #efefef, #fff, #efefef);
-  border-radius: 10px;
 }
 </style>

@@ -77,14 +77,6 @@ const visibleRoutes = computed(() => {
     return true;
   });
 });
-
-// 测试用定时器,自动登录
-// setTimeout(() => {
-//   store.dispatch("user/getLoginUser", {
-//     userName: "KarlexYan",
-//     userRole: "admin",
-//   });
-// }, 5000);
 </script>
 
 <style setup scoped>

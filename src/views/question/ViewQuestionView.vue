@@ -58,10 +58,10 @@
               :style="{ width: '320px' }"
               placeholder="请选择编程语言"
             >
-              <a-option>Java</a-option>
-              <a-option>CPP</a-option>
-              <a-option>GO</a-option>
-              <a-option>Html</a-option>
+              <a-option>java</a-option>
+              <a-option>cpp</a-option>
+              <a-option>go</a-option>
+              <a-option>html</a-option>
             </a-select>
           </a-form-item>
         </a-form>
@@ -80,7 +80,6 @@ import { defineProps, onMounted, ref, withDefaults } from "vue";
 import {
   QuestionControllerService,
   QuestionSubmitAddRequest,
-  QuestionSubmitControllerService,
   QuestionVO,
 } from "../../../backapi";
 import message from "@arco-design/web-vue/es/message";
@@ -126,7 +125,9 @@ const loadData = async () => {
 const codeDefaultValue = ref(
   "public class Main {\n" +
     "    public static void main(String[] args) {\n" +
-    '        System.out.println("Hello, World!");\n' +
+    "        int a = Integer.parseInt(args[0]);\n" +
+    "        int b = Integer.parseInt(args[1]);\n" +
+    "        System.out.println((a + b));\n" +
     "    }\n" +
     "}\n"
 );
@@ -146,7 +147,7 @@ const doSubmit = async () => {
     return;
   }
 
-  const res = await QuestionSubmitControllerService.doQuestionSubmitUsingPost({
+  const res = await QuestionControllerService.doQuestionSubmitUsingPost({
     ...form.value,
     questionId: question.value.id,
   });
