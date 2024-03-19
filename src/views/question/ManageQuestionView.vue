@@ -283,7 +283,7 @@ const router = useRouter();
  */
 const toQuestionPage = (questionId: QuestionSubmitQueryRequest) => {
   router.push({
-    path: `/question/view/${questionId.questionId}`,
+    path: `/question/view/${questionId.id}`,
   });
 };
 
