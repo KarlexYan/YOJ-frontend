@@ -2,7 +2,7 @@ import { RouteRecordRaw } from "vue-router";
 import UserLayout from "@/layouts/UserLayout.vue";
 import UserLoginView from "@/views/user/UserLoginView.vue";
 import UserRegisterView from "@/views/user/UserRegisterView.vue";
-import NoAuthView from "@/views/NoAuthView.vue";
+import NoAuthView from "@/views/state/NoAuthView.vue";
 import AddQuestionView from "@/views/question/AddQuestionView.vue";
 import ManageQuestionView from "@/views/question/ManageQuestionView.vue";
 import BrowseQuestionView from "@/views/question/BrowseQuestionView.vue";
@@ -10,6 +10,7 @@ import ViewQuestionView from "@/views/question/ViewQuestionView.vue";
 import QuestionSubmitView from "@/views/question/QuestionSubmitView.vue";
 import UserInfoView from "@/views/user/UserInfoView.vue";
 import UserManageView from "@/views/user/UserManageView.vue";
+import AboutView from "@/views/AboutView.vue";
 
 import AUTH_ENUM from "@/access/authEnum";
 
@@ -41,7 +42,7 @@ export const routes: Array<RouteRecordRaw> = [
   },
   {
     path: "/",
-    name: "主页",
+    name: "题目列表",
     component: BrowseQuestionView,
   },
   {
@@ -85,12 +86,9 @@ export const routes: Array<RouteRecordRaw> = [
     },
   },
   {
-    path: "/user/manage",
+    path: "/manage/user",
     name: "用户管理",
     component: UserManageView,
-    meta: {
-      access: AUTH_ENUM.ADMIN,
-    },
   },
   {
     path: "/noAuth",
@@ -102,8 +100,8 @@ export const routes: Array<RouteRecordRaw> = [
   },
   {
     path: "/introduce",
-    name: "系统介绍",
-    component: () => import("../views/SystemIntroduceView.vue"),
+    name: "作者页",
+    component: AboutView,
   },
   {
     path: "/404",

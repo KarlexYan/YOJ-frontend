@@ -154,7 +154,7 @@ const doSubmit = async () => {
     message.success("提交成功");
     // 返回题目列表页
     await router.push({
-      path: "/",
+      path: "/question_submit",
       replace: true,
     });
   } else {

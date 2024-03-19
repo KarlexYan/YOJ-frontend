@@ -33,6 +33,14 @@
           >注册
         </a-button>
       </a-form-item>
+      <a-form-item>
+        <a-button
+          style="width: 480px; height: 40px; font-size: 16px; font-weight: bold"
+          @click="toIndex"
+        >
+          首页
+        </a-button>
+      </a-form-item>
     </a-form>
   </div>
 </template>
@@ -71,6 +79,16 @@ const handleSubmit = async () => {
   } else {
     message.error("登录失败" + res.message);
   }
+};
+
+/**
+ * 回到首页
+ * @param question
+ */
+const toIndex = () => {
+  router.push({
+    path: `/`,
+  });
 };
 
 /**
