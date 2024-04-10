@@ -32,20 +32,23 @@
                 </a-space>
               </template>
             </a-card>
+            <a-divider size="0" />
+            <a-button
+              type="primary"
+              style="min-width: 200px; margin-left: 280px"
+              size="large"
+              @click="doSubmit"
+              >提交代码
+            </a-button>
           </a-tab-pane>
-          <a-tab-pane key="comment" title="评论区" disabled></a-tab-pane>
-          <a-tab-pane key="answer" title="答案" disabled></a-tab-pane>
+          <a-tab-pane key="comment" title="评论区"></a-tab-pane>
+          <a-tab-pane key="answer" title="答案">
+            <a-card v-if="question">
+              <MdViewer :value="question.answer || ''" />
+            </a-card>
+          </a-tab-pane>
         </a-tabs>
-        <a-divider size="0" />
-        <a-button
-          type="primary"
-          style="min-width: 200px; margin-left: 280px"
-          size="large"
-          @click="doSubmit"
-          >提交代码
-        </a-button>
       </a-col>
-
       <a-col :md="12" :xs="24">
         <a-form :model="form" layout="inline">
           <a-form-item
@@ -59,9 +62,7 @@
               placeholder="请选择编程语言"
             >
               <a-option>java</a-option>
-              <a-option disabled>cpp</a-option>
-              <a-option disabled>go</a-option>
-              <a-option disabled>html</a-option>
+              <a-option disabled>敬请其他更多语言</a-option>
             </a-select>
           </a-form-item>
         </a-form>
