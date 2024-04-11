@@ -11,6 +11,7 @@ import BrowseQuestionView from "@/views/question/BrowseQuestionView.vue";
 import BrowseExaminationView from "@/views/examination/BrowerExamination.vue";
 import ViewQuestionView from "@/views/question/ViewQuestionView.vue";
 import QuestionSubmitView from "@/views/question/QuestionSubmitView.vue";
+import ExaminationSubmitView from "@/views/examination/ExaminationSubmitView.vue";
 import UserInfoView from "@/views/user/UserInfoView.vue";
 import UserManageView from "@/views/user/UserManageView.vue";
 import AboutView from "@/views/AboutView.vue";
@@ -47,36 +48,6 @@ export const routes: Array<RouteRecordRaw> = [
     path: "/",
     name: "题目列表",
     component: BrowseQuestionView,
-  },
-  {
-    path: "/examination/list",
-    name: "套题列表",
-    component: BrowseExaminationView,
-  },
-  {
-    path: "/examination/add",
-    name: "创建套题",
-    component: AddExaminationView,
-    meta: {
-      access: AUTH_ENUM.ADMIN || AUTH_ENUM.USER,
-    },
-  },
-  {
-    path: "/examination/manage",
-    name: "管理套题",
-    component: ManageExamination,
-    meta: {
-      access: AUTH_ENUM.ADMIN,
-    },
-  },
-  {
-    path: "/examination/update",
-    name: "修改套题",
-    component: AddExaminationView,
-    meta: {
-      access: AUTH_ENUM.ADMIN,
-      hideInMenu: true,
-    },
   },
   {
     path: "/question_submit",
@@ -122,6 +93,41 @@ export const routes: Array<RouteRecordRaw> = [
     path: "/manage/user",
     name: "用户管理",
     component: UserManageView,
+  },
+  {
+    path: "/examination/list",
+    name: "套题列表",
+    component: BrowseExaminationView,
+  },
+  {
+    path: "/examination_submit",
+    name: "套题提交记录",
+    component: ExaminationSubmitView,
+  },
+  {
+    path: "/examination/add",
+    name: "创建套题",
+    component: AddExaminationView,
+    meta: {
+      access: AUTH_ENUM.ADMIN || AUTH_ENUM.USER,
+    },
+  },
+  {
+    path: "/examination/manage",
+    name: "管理套题",
+    component: ManageExamination,
+    meta: {
+      access: AUTH_ENUM.ADMIN,
+    },
+  },
+  {
+    path: "/examination/update",
+    name: "修改套题",
+    component: AddExaminationView,
+    meta: {
+      access: AUTH_ENUM.ADMIN,
+      hideInMenu: true,
+    },
   },
   {
     path: "/noAuth",
