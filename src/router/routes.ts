@@ -4,6 +4,7 @@ import UserLoginView from "@/views/user/UserLoginView.vue";
 import UserRegisterView from "@/views/user/UserRegisterView.vue";
 import NoAuthView from "@/views/state/NoAuthView.vue";
 import AddQuestionView from "@/views/question/AddQuestionView.vue";
+import AddExaminationView from "@/views/examination/AddExaminationView.vue";
 import ManageQuestionView from "@/views/question/ManageQuestionView.vue";
 import BrowseQuestionView from "@/views/question/BrowseQuestionView.vue";
 import BrowseExaminationView from "@/views/examination/BrowerExamination.vue";
@@ -47,9 +48,17 @@ export const routes: Array<RouteRecordRaw> = [
     component: BrowseQuestionView,
   },
   {
-    path: "/manage/examination",
+    path: "/examination/list",
     name: "套题列表",
     component: BrowseExaminationView,
+  },
+  {
+    path: "/examination/add",
+    name: "创建套题",
+    component: AddExaminationView,
+    meta: {
+      access: AUTH_ENUM.ADMIN || AUTH_ENUM.USER,
+    },
   },
   {
     path: "/question_submit",
