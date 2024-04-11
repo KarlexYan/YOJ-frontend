@@ -6,6 +6,7 @@ import NoAuthView from "@/views/state/NoAuthView.vue";
 import AddQuestionView from "@/views/question/AddQuestionView.vue";
 import ManageQuestionView from "@/views/question/ManageQuestionView.vue";
 import BrowseQuestionView from "@/views/question/BrowseQuestionView.vue";
+import BrowseExaminationView from "@/views/examination/BrowerExamination.vue";
 import ViewQuestionView from "@/views/question/ViewQuestionView.vue";
 import QuestionSubmitView from "@/views/question/QuestionSubmitView.vue";
 import UserInfoView from "@/views/user/UserInfoView.vue";
@@ -44,6 +45,11 @@ export const routes: Array<RouteRecordRaw> = [
     path: "/",
     name: "题目列表",
     component: BrowseQuestionView,
+  },
+  {
+    path: "/manage/examination",
+    name: "套题列表",
+    component: BrowseExaminationView,
   },
   {
     path: "/question_submit",
