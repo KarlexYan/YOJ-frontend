@@ -7,6 +7,7 @@ import type { UserVO } from "./UserVO";
 
 export type QuestionVO = {
     acceptedNum?: number;
+    answer?: string;
     content?: string;
     createTime?: string;
     favourNum?: number;

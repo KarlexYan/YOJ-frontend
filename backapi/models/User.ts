@@ -4,10 +4,11 @@
 /* eslint-disable */
 export type User = {
     createTime?: string;
+    email?: string;
+    gender?: string;
     id?: number;
     isDelete?: number;
-    mpOpenId?: string;
-    unionId?: string;
+    phone?: string;
     updateTime?: string;
     userAccount?: string;
     userAvatar?: string;
@@ -15,5 +16,6 @@ export type User = {
     userPassword?: string;
     userProfile?: string;
     userRole?: string;
+    userState?: string;
 };
 
