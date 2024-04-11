@@ -8,7 +8,7 @@
         margin-bottom: 16px;
       "
     >
-      <template v-if="route.path.startsWith('/Examination/update')">
+      <template v-if="route.path.startsWith('/examination/update')">
         修改套题信息
       </template>
       <template v-else>创建套题</template>

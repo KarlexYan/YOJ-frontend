@@ -59,7 +59,8 @@ export const routes: Array<RouteRecordRaw> = [
     name: "创建题目",
     component: AddQuestionView,
     meta: {
-      access: AUTH_ENUM.ADMIN || AUTH_ENUM.USER,
+      access: AUTH_ENUM.ADMIN,
+      hideInMenu: true,
     },
   },
   {
@@ -109,7 +110,8 @@ export const routes: Array<RouteRecordRaw> = [
     name: "创建套题",
     component: AddExaminationView,
     meta: {
-      access: AUTH_ENUM.ADMIN || AUTH_ENUM.USER,
+      access: AUTH_ENUM.ADMIN,
+      hideInMenu: true,
     },
   },
   {

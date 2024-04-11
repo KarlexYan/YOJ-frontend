@@ -28,6 +28,9 @@
       <a-form-item>
         <a-button type="primary" @click="doSubmit">搜索</a-button>
       </a-form-item>
+      <a-form-item>
+        <a-button status="normal" @click="doAdd">创建</a-button>
+      </a-form-item>
     </a-form>
     <a-table
       :column-resizable="true"
@@ -63,37 +66,6 @@
           </a-tag>
         </a-space>
       </template>
-      <template #judgeConfig="{ record }">
-        <a-space wrap>
-          <a-tag
-            v-for="(config, index) of JSON.parse(record.judgeConfig)"
-            :key="index"
-            color="orangered"
-            >{{
-              `${
-                index === "timeLimit"
-                  ? "时间(ms)"
-                  : index === "memoryLimit"
-                  ? "内存(Kb)"
-                  : "堆栈(Kb)"
-              }`
-            }}
-            {{ "：" + config }}
-          </a-tag>
-        </a-space>
-      </template>
-      <template #judgeCase="{ record }">
-        <a-space wrap>
-          <a-tag
-            v-for="(config, index) of JSON.parse(record.judgeCase)"
-            :key="index"
-            color="blue"
-            >示例{{ index + 1 }}: 输入：{{ config.input }} ，输出：{{
-              config.output
-            }}
-          </a-tag>
-        </a-space>
-      </template>
       <template #createTime="{ record }">
         {{ moment(record.createTime).format("YYYY-MM-DD HH:mm") }}
       </template>
@@ -122,11 +94,7 @@
 
 <script setup lang="ts">
 import { onMounted, ref, watchEffect } from "vue";
-import {
-  Examination,
-  ExaminationControllerService,
-  ExaminationSubmitQueryRequest,
-} from "../../../backapi";
+import { Examination, ExaminationControllerService } from "../../../backapi";
 import message from "@arco-design/web-vue/es/message";
 import { useRouter } from "vue-router";
 import moment from "moment";
@@ -194,6 +162,11 @@ const columns = [
     align: "center",
   },
   {
+    title: "用户ID",
+    dataIndex: "userId",
+    align: "center",
+  },
+  {
     title: "标签",
     slotName: "tags",
     align: "center",
@@ -254,9 +227,12 @@ const router = useRouter();
  * 跳转到做题页面
  * @param Examination
  */
-const toExaminationPage = (ExaminationId: ExaminationSubmitQueryRequest) => {
+const toExaminationPage = (Examination: Examination) => {
   router.push({
-    path: `/examination/view/${ExaminationId.id}`,
+    path: "/examination/update",
+    query: {
+      id: Examination.id,
+    },
   });
 };
 
@@ -281,6 +257,15 @@ const doSubmit = () => {
     ...searchParams.value,
     current: 1,
   };
+};
+
+/**
+ * 创建套题
+ */
+const doAdd = () => {
+  router.push({
+    path: "/examination/add",
+  });
 };
 </script>
 

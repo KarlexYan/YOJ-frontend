@@ -31,6 +31,9 @@
       <a-form-item>
         <a-button type="primary" @click="doSubmit">搜索</a-button>
       </a-form-item>
+      <a-form-item>
+        <a-button status="normal" @click="doAdd">创建</a-button>
+      </a-form-item>
     </a-form>
     <a-table
       :column-resizable="true"
@@ -125,11 +128,7 @@
 
 <script setup lang="ts">
 import { onMounted, ref, watchEffect } from "vue";
-import {
-  Question,
-  QuestionControllerService,
-  QuestionSubmitQueryRequest,
-} from "../../../backapi";
+import { Question, QuestionControllerService } from "../../../backapi";
 import message from "@arco-design/web-vue/es/message";
 import { useRouter } from "vue-router";
 import moment from "moment";
@@ -187,6 +186,11 @@ const columns = [
   {
     title: "题号",
     slotName: "id",
+    align: "center",
+  },
+  {
+    title: "用户ID",
+    dataIndex: "userId",
     align: "center",
   },
   {
@@ -281,9 +285,12 @@ const router = useRouter();
  * 跳转到做题页面
  * @param question
  */
-const toQuestionPage = (questionId: QuestionSubmitQueryRequest) => {
+const toQuestionPage = (question: Question) => {
   router.push({
-    path: `/question/view/${questionId.id}`,
+    path: "/question/update",
+    query: {
+      id: question.id,
+    },
   });
 };
 
@@ -308,6 +315,15 @@ const doSubmit = () => {
     ...searchParams.value,
     current: 1,
   };
+};
+
+/**
+ * 创建题目
+ */
+const doAdd = () => {
+  router.push({
+    path: "/question/add",
+  });
 };
 </script>
 
