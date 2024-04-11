@@ -6,6 +6,7 @@ import NoAuthView from "@/views/state/NoAuthView.vue";
 import AddQuestionView from "@/views/question/AddQuestionView.vue";
 import AddExaminationView from "@/views/examination/AddExaminationView.vue";
 import ManageQuestionView from "@/views/question/ManageQuestionView.vue";
+import ManageExamination from "@/views/examination/ManageExaminationView.vue";
 import BrowseQuestionView from "@/views/question/BrowseQuestionView.vue";
 import BrowseExaminationView from "@/views/examination/BrowerExamination.vue";
 import ViewQuestionView from "@/views/question/ViewQuestionView.vue";
@@ -58,6 +59,23 @@ export const routes: Array<RouteRecordRaw> = [
     component: AddExaminationView,
     meta: {
       access: AUTH_ENUM.ADMIN || AUTH_ENUM.USER,
+    },
+  },
+  {
+    path: "/examination/manage",
+    name: "管理套题",
+    component: ManageExamination,
+    meta: {
+      access: AUTH_ENUM.ADMIN,
+    },
+  },
+  {
+    path: "/examination/update",
+    name: "修改套题",
+    component: AddExaminationView,
+    meta: {
+      access: AUTH_ENUM.ADMIN,
+      hideInMenu: true,
     },
   },
   {
