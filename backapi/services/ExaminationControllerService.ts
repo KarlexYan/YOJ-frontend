@@ -188,7 +188,7 @@ export class ExaminationControllerService {
     ): CancelablePromise<BaseResponse_List_ExaminationQuestionVO_ | any> {
         return __request(OpenAPI, {
             method: 'POST',
-            url: '/api/examination/examination_question/list',
+            url: '/api/examination/examination_question/list/vo',
             body: examinationQuestionQueryRequest,
             errors: {
                 401: `Unauthorized`,

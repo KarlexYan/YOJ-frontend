@@ -20,7 +20,7 @@
         :author="record.userVO.userName"
         :content="record.content"
         :avatar="record.userVO.userAvatar"
-        :datetime="moment(record.createTime).format('YYYY年MM月DD日 HH时mm分')"
+        :datetime="moment(record.createTime).format('YYYY-MM-DD HH:mm:ss')"
       >
         <template #avatar>
           <a-avatar>

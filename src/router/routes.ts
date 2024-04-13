@@ -17,6 +17,7 @@ import UserInfoView from "@/views/user/UserInfoView.vue";
 import UserManageView from "@/views/user/UserManageView.vue";
 import AboutView from "@/views/AboutView.vue";
 import ContactView from "@/views/contact/BrowseContactView.vue";
+import ContactManageView from "@/views/contact/ContactManageView.vue";
 
 import AUTH_ENUM from "@/access/authEnum";
 
@@ -95,6 +96,16 @@ export const routes: Array<RouteRecordRaw> = [
     component: ExaminationSubmitView,
   },
   {
+    path: "/contact",
+    name: "动态页",
+    component: ContactView,
+  },
+  {
+    path: "/introduce",
+    name: "作者页",
+    component: AboutView,
+  },
+  {
     path: "/examination/add",
     name: "创建套题",
     component: AddExaminationView,
@@ -128,6 +139,14 @@ export const routes: Array<RouteRecordRaw> = [
     },
   },
   {
+    path: "/contact/manage",
+    name: "管理动态",
+    component: ContactManageView,
+    meta: {
+      access: AUTH_ENUM.ADMIN,
+    },
+  },
+  {
     path: "/examination/question_list/manage",
     name: "套题题目列表",
     component: ManageExaminationQuestion,
@@ -152,16 +171,7 @@ export const routes: Array<RouteRecordRaw> = [
       hideInMenu: true,
     },
   },
-  {
-    path: "/contact",
-    name: "动态页",
-    component: ContactView,
-  },
-  {
-    path: "/introduce",
-    name: "作者页",
-    component: AboutView,
-  },
+
   {
     path: "/404",
     name: "404",

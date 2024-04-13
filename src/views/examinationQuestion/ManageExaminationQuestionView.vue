@@ -1,5 +1,5 @@
 <template>
-  <div id="manageExaminationView">
+  <div id="manageExaminationQuestionView">
     <a-form
       :model="searchParams"
       layout="inline"
@@ -16,6 +16,9 @@
           v-model="searchParams.userId"
           placeholder="请输入要查询的用户ID"
         />
+      </a-form-item>
+      <a-form-item field="title" label="题目内容" tooltip="请输入题目内容">
+        <a-input v-model="searchParams.content" placeholder="请输入题目内容" />
       </a-form-item>
       <a-form-item
         field="tags"
@@ -52,7 +55,7 @@
         <a-link
           status="normal"
           style="color: black"
-          @click="toExaminationPage(record)"
+          @click="toExaminationQuestionPage(record)"
           >{{ record.id }}
         </a-link>
       </template>
@@ -66,14 +69,42 @@
           </a-tag>
         </a-space>
       </template>
+      <template #judgeConfig="{ record }">
+        <a-space wrap>
+          <a-tag
+            v-for="(config, index) of JSON.parse(record.judgeConfig)"
+            :key="index"
+            color="orangered"
+            >{{
+              `${
+                index === "timeLimit"
+                  ? "时间(ms)"
+                  : index === "memoryLimit"
+                  ? "内存(Kb)"
+                  : "堆栈(Kb)"
+              }`
+            }}
+            {{ "：" + config }}
+          </a-tag>
+        </a-space>
+      </template>
+      <template #judgeCase="{ record }">
+        <a-space wrap>
+          <a-tag
+            v-for="(config, index) of JSON.parse(record.judgeCase)"
+            :key="index"
+            color="blue"
+            >示例{{ index + 1 }}: 输入：{{ config.input }} ，输出：{{
+              config.output
+            }}
+          </a-tag>
+        </a-space>
+      </template>
       <template #createTime="{ record }">
         {{ moment(record.createTime).format("YYYY-MM-DD HH:mm") }}
       </template>
       <template #optional="{ record }">
         <a-space>
-          <a-button status="normal" @click="doEditQuestionList(record)"
-            >查看题目</a-button
-          >
           <a-button type="primary" @click="doUpdate(record)">修改</a-button>
           <a-popconfirm
             content="确定要删除此题目吗?"
@@ -97,11 +128,15 @@
 
 <script setup lang="ts">
 import { onMounted, ref, watchEffect } from "vue";
-import { Examination, ExaminationControllerService } from "../../../backapi";
+import {
+  ExaminationControllerService,
+  ExaminationQuestionVO,
+} from "../../../backapi";
 import message from "@arco-design/web-vue/es/message";
-import { useRouter } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 import moment from "moment";
 
+const route = useRoute();
 const tableRef = ref();
 const dataList = ref([]);
 const total = ref(0);
@@ -121,13 +156,14 @@ const searchParams = ref({
  * 加载函数
  */
 const loadData = async () => {
-  const res = await ExaminationControllerService.listExaminationByPageUsingPost(
-    {
-      ...searchParams.value,
-      sortField: "createTime",
-      sortOrder: "descend",
-    }
-  );
+  const examinationId = route.query.examinationId;
+  if (!examinationId) {
+    return;
+  }
+  const res =
+    await ExaminationControllerService.listQuestionVoByExaminationUsingPost(
+      examinationId as any
+    );
   if (res.code === 0) {
     dataList.value = res.data.records;
     total.value = res.data.total;
@@ -160,13 +196,13 @@ const columns = [
     align: "center",
   },
   {
-    title: "题目",
-    dataIndex: "title",
+    title: "用户ID",
+    dataIndex: "userId",
     align: "center",
   },
   {
-    title: "用户ID",
-    dataIndex: "userId",
+    title: "题目",
+    dataIndex: "title",
     align: "center",
   },
   {
@@ -174,6 +210,32 @@ const columns = [
     slotName: "tags",
     align: "center",
     width: 150,
+  },
+  {
+    title: "答案",
+    dataIndex: "answer",
+    align: "center",
+    width: 150,
+  },
+  {
+    title: "提交数",
+    dataIndex: "submitNum",
+  },
+  {
+    title: "通过数",
+    dataIndex: "acceptedNum",
+  },
+  {
+    title: "判题配置",
+    slotName: "judgeConfig",
+    align: "center",
+    width: 400,
+  },
+  {
+    title: "判题用例",
+    slotName: "judgeCase",
+    align: "center",
+    width: 140,
   },
   {
     title: "创建时间",
@@ -212,10 +274,11 @@ const onPageSizeChange = (size: number) => {
 /**
  * 删除
  */
-const doDelete = async (examination: Examination) => {
-  const res = await ExaminationControllerService.deleteExaminationUsingPost({
-    id: examination.id,
-  });
+const doDelete = async (examinationQuestionVO: ExaminationQuestionVO) => {
+  const res =
+    await ExaminationControllerService.deleteExaminationQuestionUsingPost({
+      id: examinationQuestionVO.examinationQuestionId,
+    });
   if (res.code === 0) {
     message.success("删除成功");
     loadData(); // 刷新数据
@@ -228,13 +291,15 @@ const router = useRouter();
 
 /**
  * 跳转到做题页面
- * @param Examination
+ * @param question
  */
-const toExaminationPage = (examination: Examination) => {
+const toExaminationQuestionPage = (
+  examinationQuestionVO: ExaminationQuestionVO
+) => {
   router.push({
-    path: "/examination/update",
+    path: "/examination_question/update",
     query: {
-      id: examination.id,
+      id: examinationQuestionVO.questionVO?.id,
     },
   });
 };
@@ -242,23 +307,11 @@ const toExaminationPage = (examination: Examination) => {
 /**
  * 更新 / 修改操作
  */
-const doUpdate = (examination: Examination) => {
+const doUpdate = (examinationQuestionVO: ExaminationQuestionVO) => {
   router.push({
-    path: "/examination/update",
+    path: "/examination_question/update",
     query: {
-      id: examination.id,
-    },
-  });
-};
-
-/**
- * 查看套题的题目列表
- */
-const doEditQuestionList = (examination: Examination) => {
-  router.push({
-    path: `/examination/question_list/manage`,
-    query: {
-      examinationId: examination.id,
+      id: examinationQuestionVO.questionVO?.id,
     },
   });
 };
@@ -275,21 +328,19 @@ const doSubmit = () => {
 };
 
 /**
- * 创建套题
+ * 创建题目
  */
 const doAdd = () => {
   router.push({
-    path: "/examination/add",
+    path: "/examination_question/add",
   });
 };
 </script>
 
 <style scoped>
-#manageExaminationView {
+#manageExaminationQuestionView {
   padding: 5px;
   box-shadow: 0px 0px 10px rgba(35, 7, 7, 0.21);
   border-radius: 10px;
-  max-width: 1380px;
-  margin: 0 auto;
 }
 </style>
