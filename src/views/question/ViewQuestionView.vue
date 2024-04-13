@@ -182,7 +182,7 @@ const changeCode = (value: string) => {
 <style>
 #viewQuestionView {
   max-width: 1600px;
-  margin: 0 auto;
+  margin: 30px auto;
   box-shadow: 0px 0px 10px rgba(35, 7, 7, 0.21);
   border-radius: 10px;
 }

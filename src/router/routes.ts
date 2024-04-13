@@ -15,9 +15,9 @@ import QuestionSubmitView from "@/views/question/QuestionSubmitView.vue";
 import ExaminationSubmitView from "@/views/examination/ExaminationSubmitView.vue";
 import UserInfoView from "@/views/user/UserInfoView.vue";
 import UserManageView from "@/views/user/UserManageView.vue";
-import AboutView from "@/views/AboutView.vue";
 import ContactView from "@/views/contact/BrowseContactView.vue";
 import ContactManageView from "@/views/contact/ContactManageView.vue";
+import SystemIntroduceView from "@/views/SystemIntroduceView.vue";
 
 import AUTH_ENUM from "@/access/authEnum";
 
@@ -103,7 +103,7 @@ export const routes: Array<RouteRecordRaw> = [
   {
     path: "/introduce",
     name: "作者页",
-    component: AboutView,
+    component: SystemIntroduceView,
   },
   {
     path: "/examination/add",
