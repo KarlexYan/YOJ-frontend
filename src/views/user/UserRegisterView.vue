@@ -8,8 +8,11 @@
       @submit="handleSubmit"
       style="max-width: 480px; margin: 0 auto"
     >
-      <a-form-item field="userAccount" label="用户名">
+      <a-form-item field="userAccount" label="账户名">
         <a-input v-model="form.userAccount" placeholder="请输入你的账户" />
+      </a-form-item>
+      <a-form-item field="userName" label="用户名">
+        <a-input v-model="form.userName" placeholder="请输入你的用户名" />
       </a-form-item>
       <a-form-item field="userPassword" label="密码">
         <a-input-password
@@ -58,6 +61,7 @@ const store = useStore();
  */
 const form = reactive({
   userAccount: "",
+  userName: "",
   userPassword: "",
   checkPassword: "",
 } as UserRegisterRequest);

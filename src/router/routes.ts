@@ -7,6 +7,7 @@ import AddQuestionView from "@/views/question/AddQuestionView.vue";
 import AddExaminationView from "@/views/examination/AddExaminationView.vue";
 import ManageQuestionView from "@/views/question/ManageQuestionView.vue";
 import ManageExamination from "@/views/examination/ManageExaminationView.vue";
+import ManageExaminationQuestion from "@/views/examinationQuestion/ManageExaminationQuestionView.vue";
 import BrowseQuestionView from "@/views/question/BrowseQuestionView.vue";
 import BrowseExaminationView from "@/views/examination/BrowerExamination.vue";
 import ViewQuestionView from "@/views/question/ViewQuestionView.vue";
@@ -15,6 +16,7 @@ import ExaminationSubmitView from "@/views/examination/ExaminationSubmitView.vue
 import UserInfoView from "@/views/user/UserInfoView.vue";
 import UserManageView from "@/views/user/UserManageView.vue";
 import AboutView from "@/views/AboutView.vue";
+import ContactView from "@/views/contact/BrowseContactView.vue";
 
 import AUTH_ENUM from "@/access/authEnum";
 
@@ -73,14 +75,6 @@ export const routes: Array<RouteRecordRaw> = [
     },
   },
   {
-    path: "/question/manage",
-    name: "管理题目",
-    component: ManageQuestionView,
-    meta: {
-      access: AUTH_ENUM.ADMIN,
-    },
-  },
-  {
     path: "/question/view/:id",
     name: "在线做题",
     component: ViewQuestionView,
@@ -89,11 +83,6 @@ export const routes: Array<RouteRecordRaw> = [
       access: AUTH_ENUM.ADMIN || AUTH_ENUM.USER,
       hideInMenu: true,
     },
-  },
-  {
-    path: "/manage/user",
-    name: "用户管理",
-    component: UserManageView,
   },
   {
     path: "/examination/list",
@@ -115,9 +104,33 @@ export const routes: Array<RouteRecordRaw> = [
     },
   },
   {
+    path: "/manage/user",
+    name: "用户管理",
+    component: UserManageView,
+    meta: {
+      access: AUTH_ENUM.ADMIN,
+    },
+  },
+  {
+    path: "/question/manage",
+    name: "管理题目",
+    component: ManageQuestionView,
+    meta: {
+      access: AUTH_ENUM.ADMIN,
+    },
+  },
+  {
     path: "/examination/manage",
     name: "管理套题",
     component: ManageExamination,
+    meta: {
+      access: AUTH_ENUM.ADMIN,
+    },
+  },
+  {
+    path: "/examination/question_list/manage",
+    name: "套题题目列表",
+    component: ManageExaminationQuestion,
     meta: {
       access: AUTH_ENUM.ADMIN,
     },
@@ -138,6 +151,11 @@ export const routes: Array<RouteRecordRaw> = [
     meta: {
       hideInMenu: true,
     },
+  },
+  {
+    path: "/contact",
+    name: "动态页",
+    component: ContactView,
   },
   {
     path: "/introduce",
