@@ -41,7 +41,75 @@
               >提交代码
             </a-button>
           </a-tab-pane>
-          <a-tab-pane key="comment" title="评论区"></a-tab-pane>
+          <a-tab-pane key="comment" title="评论区">
+            <div id="contentView">
+              <a-form :model="contactForm">
+                <a-comment align="right" :avatar="loginUser.userAvatar">
+                  <template #actions>
+                    <a-button key="1" type="primary" @click="doSubmitContact">
+                      发送
+                    </a-button>
+                  </template>
+                  <template #content>
+                    <a-input
+                      placeholder="请输入要发布的内容"
+                      v-model="contactForm.content"
+                    />
+                  </template>
+                </a-comment>
+              </a-form>
+            </div>
+            <div class="contactList">
+              <a-comment
+                v-for="(record, index) in dataList"
+                :key="index"
+                :author="record.userVO.userName"
+                :content="record.content"
+                :avatar="record.userVO.userAvatar"
+                :datetime="
+                  moment(record.createTime).format('YYYY-MM-DD HH:mm:ss')
+                "
+              >
+                <template #avatar>
+                  <a-avatar>
+                    <img alt="avatar" src="" />
+                  </a-avatar>
+                </template>
+                <a-space
+                  v-if="
+                    record.userId == loginUser.id ||
+                    loginUser.userRole == 'admin'
+                  "
+                >
+                  <a-popconfirm
+                    content="确定要删除此评论吗?"
+                    type="error"
+                    okText="是"
+                    cancelText="否"
+                    @cancel="
+                      () => {
+                        console.log(`已取消`);
+                      }
+                    "
+                    @ok="doDeleteContact(record)"
+                  >
+                    <a-button type="outline" status="danger">删除</a-button>
+                  </a-popconfirm>
+                </a-space>
+                <a-divider :margin="10" />
+              </a-comment>
+            </div>
+            <!-- 分页组件 -->
+            <!--            <a-pagination-->
+            <!--              :current="searchParams.current"-->
+            <!--              :total="total"-->
+            <!--              :pageSize="searchParams.pageSize"-->
+            <!--              @change="handlePageChange"-->
+            <!--              @pageSizeChange="handlePageSizeChange"-->
+            <!--              :show-jumper="true"-->
+            <!--              :show-page-size="true"-->
+            <!--            />-->
+          </a-tab-pane>
           <a-tab-pane key="answer" title="答案">
             <a-card v-if="question">
               <MdViewer :value="question.answer || ''" />
@@ -77,8 +145,11 @@
 </template>
 
 <script setup lang="ts">
-import { defineProps, onMounted, ref, withDefaults } from "vue";
+import { computed, defineProps, onMounted, ref, withDefaults } from "vue";
 import {
+  LoginUserVO,
+  QuestionContactAddRequest,
+  QuestionContactControllerService,
   QuestionControllerService,
   QuestionSubmitAddRequest,
   QuestionVO,
@@ -87,6 +158,14 @@ import message from "@arco-design/web-vue/es/message";
 import MdViewer from "@/components/MdViewer.vue";
 import CodeEditor from "@/components/CodeEditor.vue";
 import { useRouter } from "vue-router";
+import { useStore } from "vuex";
+import moment from "moment";
+
+// 获取全局状态管理器
+const store = useStore();
+
+const dataList = ref([]);
+const total = ref(0);
 
 /**
  * 定义组件属性类型
@@ -105,6 +184,11 @@ const props = withDefaults(defineProps<Props>(), {
 // 拿到脱敏的题目信息
 const question = ref<QuestionVO>();
 
+// 获取到登录用户状态
+const loginUser: LoginUserVO = computed(
+  () => store.state.user?.loginUser
+) as LoginUserVO;
+
 /**
  * 加载数据
  */
@@ -116,6 +200,26 @@ const loadData = async () => {
     question.value = res.data;
   } else {
     message.error("加载失败，" + res.message);
+  }
+};
+
+/**
+ * 加载评论信息
+ */
+const loadContactData = async () => {
+  const contactRes =
+    await QuestionContactControllerService.listQuestionContactVoByPageUsingPost(
+      {
+        questionId: props.id as any,
+        sortField: "createTime",
+        sortOrder: "descend",
+      }
+    );
+  if (contactRes.code === 0) {
+    dataList.value = contactRes.data.records;
+    total.value = contactRes.data.total;
+  } else {
+    message.error("加载评论失败" + contactRes.message);
   }
 };
 
@@ -135,6 +239,10 @@ const codeDefaultValue = ref(
 const form = ref<QuestionSubmitAddRequest>({
   submitLanguage: "java",
   submitCode: codeDefaultValue as unknown as string,
+});
+
+const contactForm = ref<QuestionContactAddRequest>({
+  content: "",
 });
 
 const router = useRouter();
@@ -164,10 +272,48 @@ const doSubmit = async () => {
 };
 
 /**
+ * 提交评论
+ */
+const doSubmitContact = async () => {
+  if (!question.value?.id) {
+    return;
+  }
+  const res =
+    await QuestionContactControllerService.addQuestionContactUsingPost({
+      ...contactForm.value,
+      questionId: question.value.id,
+    });
+  if (res.code === 0) {
+    message.success("提交评论成功");
+    await loadContactData();
+  }
+};
+
+/**
+ * 删除评论
+ */
+const doDeleteContact = async (record: { id: any }) => {
+  if (!question.value?.id) {
+    return;
+  }
+  const res =
+    await QuestionContactControllerService.deleteQuestionContactUsingPost({
+      id: record.id,
+    });
+  if (res.code === 0) {
+    message.success("删除成功成功");
+    await loadContactData();
+  } else {
+    message.error("删除失败，" + res.message);
+  }
+};
+
+/**
  * 页面加载，请求数据
  */
 onMounted(() => {
   loadData();
+  loadContactData();
 });
 
 /**
@@ -189,5 +335,18 @@ const changeCode = (value: string) => {
 
 #viewQuestionView .arco-space-horizontal .arco-space-item {
   margin-bottom: 0 !important;
+}
+
+#contentView {
+  max-height: 300px;
+  margin: 10px 20px;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0px 0px 10px rgba(35, 7, 7, 0.21);
+}
+
+.contactList {
+  margin: 10px 10px;
+  padding: 20px;
 }
 </style>

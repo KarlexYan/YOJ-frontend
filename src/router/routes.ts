@@ -81,7 +81,7 @@ export const routes: Array<RouteRecordRaw> = [
     component: ViewQuestionView,
     props: true, // 开启接收动态id
     meta: {
-      access: AUTH_ENUM.ADMIN || AUTH_ENUM.USER,
+      access: AUTH_ENUM.USER || AUTH_ENUM.ADMIN,
       hideInMenu: true,
     },
   },

@@ -4,5 +4,5 @@ module.exports = defineConfig({
   transpileDependencies: true,
   chainWebpack(config){
     config.plugin("manaco").use(new MonacoEditorWebpackPlugin());
-  }
+  },
 });
