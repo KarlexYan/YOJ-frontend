@@ -205,12 +205,6 @@ const columns = [
     width: 150,
   },
   {
-    title: "答案",
-    dataIndex: "answer",
-    align: "center",
-    width: 150,
-  },
-  {
     title: "提交数",
     dataIndex: "submitNum",
   },
@@ -282,7 +276,7 @@ const doDelete = async (question: Question) => {
 const router = useRouter();
 
 /**
- * 跳转到做题页面
+ * 跳转到修改页面
  * @param question
  */
 const toQuestionPage = (question: Question) => {

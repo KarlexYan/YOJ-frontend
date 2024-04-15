@@ -17,9 +17,6 @@
           placeholder="请输入要查询的用户ID"
         />
       </a-form-item>
-      <a-form-item field="title" label="题目内容" tooltip="请输入题目内容">
-        <a-input v-model="searchParams.content" placeholder="请输入题目内容" />
-      </a-form-item>
       <a-form-item
         field="tags"
         label="题目标签"
@@ -129,13 +126,14 @@
 <script setup lang="ts">
 import { onMounted, ref, watchEffect } from "vue";
 import {
-  ExaminationControllerService,
-  ExaminationQuestionVO,
+  ExaminationQuestion,
+  ExaminationQuestionControllerService,
 } from "../../../backapi";
 import message from "@arco-design/web-vue/es/message";
 import { useRoute, useRouter } from "vue-router";
 import moment from "moment";
 
+const router = useRouter();
 const route = useRoute();
 const tableRef = ref();
 const dataList = ref([]);
@@ -149,9 +147,6 @@ const searchParams = ref({
   content: "",
 });
 
-// 创建一个数据存储获取到的用户信息
-// const userInfos = [];
-
 /**
  * 加载函数
  */
@@ -161,9 +156,15 @@ const loadData = async () => {
     return;
   }
   const res =
-    await ExaminationControllerService.listQuestionVoByExaminationUsingPost(
-      examinationId as any
+    await ExaminationQuestionControllerService.listExaminationQuestionByPageUsingPost(
+      {
+        examinationId: examinationId as unknown as any,
+        ...searchParams.value,
+        sortField: "createTime",
+        sortOrder: "descend",
+      }
     );
+  console.log(res);
   if (res.code === 0) {
     dataList.value = res.data.records;
     total.value = res.data.total;
@@ -208,12 +209,6 @@ const columns = [
   {
     title: "标签",
     slotName: "tags",
-    align: "center",
-    width: 150,
-  },
-  {
-    title: "答案",
-    dataIndex: "answer",
     align: "center",
     width: 150,
   },
@@ -274,11 +269,13 @@ const onPageSizeChange = (size: number) => {
 /**
  * 删除
  */
-const doDelete = async (examinationQuestionVO: ExaminationQuestionVO) => {
+const doDelete = async (examinationQuestion: ExaminationQuestion) => {
   const res =
-    await ExaminationControllerService.deleteExaminationQuestionUsingPost({
-      id: examinationQuestionVO.examinationQuestionId,
-    });
+    await ExaminationQuestionControllerService.deleteExaminationQuestionUsingPost(
+      {
+        id: examinationQuestion.id,
+      }
+    );
   if (res.code === 0) {
     message.success("删除成功");
     loadData(); // 刷新数据
@@ -287,19 +284,17 @@ const doDelete = async (examinationQuestionVO: ExaminationQuestionVO) => {
   }
 };
 
-const router = useRouter();
-
 /**
  * 跳转到做题页面
  * @param question
  */
 const toExaminationQuestionPage = (
-  examinationQuestionVO: ExaminationQuestionVO
+  examinationQuestion: ExaminationQuestion
 ) => {
   router.push({
     path: "/examination_question/update",
     query: {
-      id: examinationQuestionVO.questionVO?.id,
+      id: examinationQuestion.id,
     },
   });
 };
@@ -307,11 +302,11 @@ const toExaminationQuestionPage = (
 /**
  * 更新 / 修改操作
  */
-const doUpdate = (examinationQuestionVO: ExaminationQuestionVO) => {
+const doUpdate = (examinationQuestion: ExaminationQuestion) => {
   router.push({
     path: "/examination_question/update",
     query: {
-      id: examinationQuestionVO.questionVO?.id,
+      id: examinationQuestion.id,
     },
   });
 };
@@ -333,6 +328,9 @@ const doSubmit = () => {
 const doAdd = () => {
   router.push({
     path: "/examination_question/add",
+    query: {
+      id: route.query.examinationId,
+    },
   });
 };
 </script>

@@ -18,6 +18,8 @@ import UserManageView from "@/views/user/UserManageView.vue";
 import ContactView from "@/views/contact/BrowseContactView.vue";
 import ContactManageView from "@/views/contact/ContactManageView.vue";
 import SystemIntroduceView from "@/views/SystemIntroduceView.vue";
+import ViewExaminationView from "@/views/examination/ViewExaminationView.vue";
+import AddExaminationQuestionView from "@/views/examinationQuestion/AddExaminationQuestionView.vue";
 
 import AUTH_ENUM from "@/access/authEnum";
 
@@ -58,34 +60,6 @@ export const routes: Array<RouteRecordRaw> = [
     component: QuestionSubmitView,
   },
   {
-    path: "/question/add",
-    name: "创建题目",
-    component: AddQuestionView,
-    meta: {
-      access: AUTH_ENUM.ADMIN,
-      hideInMenu: true,
-    },
-  },
-  {
-    path: "/question/update",
-    name: "修改题目",
-    component: AddQuestionView,
-    meta: {
-      access: AUTH_ENUM.ADMIN,
-      hideInMenu: true,
-    },
-  },
-  {
-    path: "/question/view/:id",
-    name: "在线做题",
-    component: ViewQuestionView,
-    props: true, // 开启接收动态id
-    meta: {
-      access: AUTH_ENUM.USER || AUTH_ENUM.ADMIN,
-      hideInMenu: true,
-    },
-  },
-  {
     path: "/examination/list",
     name: "套题列表",
     component: BrowseExaminationView,
@@ -104,15 +78,6 @@ export const routes: Array<RouteRecordRaw> = [
     path: "/introduce",
     name: "作者页",
     component: SystemIntroduceView,
-  },
-  {
-    path: "/examination/add",
-    name: "创建套题",
-    component: AddExaminationView,
-    meta: {
-      access: AUTH_ENUM.ADMIN,
-      hideInMenu: true,
-    },
   },
   {
     path: "/manage/user",
@@ -147,17 +112,83 @@ export const routes: Array<RouteRecordRaw> = [
     },
   },
   {
+    path: "/examination_question/add",
+    name: "创建套题题目",
+    component: AddExaminationQuestionView,
+    meta: {
+      access: AUTH_ENUM.ADMIN,
+      hideInMenu: true,
+    },
+  },
+  {
+    path: "/examination_question/update",
+    name: "修改套题题目",
+    component: AddExaminationQuestionView,
+    meta: {
+      access: AUTH_ENUM.ADMIN,
+      hideInMenu: true,
+    },
+  },
+  {
+    path: "/question/view/:id",
+    name: "在线做题",
+    component: ViewQuestionView,
+    props: true, // 开启接收动态id
+    meta: {
+      access: AUTH_ENUM.USER || AUTH_ENUM.ADMIN,
+      hideInMenu: true,
+    },
+  },
+  {
+    path: "/examination/view/:id",
+    name: "在线做套题",
+    component: ViewExaminationView,
+    props: true, // 开启接收动态id
+    meta: {
+      access: AUTH_ENUM.USER || AUTH_ENUM.ADMIN,
+      hideInMenu: false,
+    },
+  },
+  {
     path: "/examination/question_list/manage",
     name: "套题题目列表",
     component: ManageExaminationQuestion,
     meta: {
       access: AUTH_ENUM.ADMIN,
+      hideInMenu: true,
     },
   },
   {
     path: "/examination/update",
     name: "修改套题",
     component: AddExaminationView,
+    meta: {
+      access: AUTH_ENUM.ADMIN,
+      hideInMenu: true,
+    },
+  },
+  {
+    path: "/examination/add",
+    name: "创建套题",
+    component: AddExaminationView,
+    meta: {
+      access: AUTH_ENUM.ADMIN,
+      hideInMenu: true,
+    },
+  },
+  {
+    path: "/question/add",
+    name: "创建题目",
+    component: AddQuestionView,
+    meta: {
+      access: AUTH_ENUM.ADMIN,
+      hideInMenu: true,
+    },
+  },
+  {
+    path: "/question/update",
+    name: "修改题目",
+    component: AddQuestionView,
     meta: {
       access: AUTH_ENUM.ADMIN,
       hideInMenu: true,

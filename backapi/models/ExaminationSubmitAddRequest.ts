@@ -2,11 +2,11 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { QuestionSubmit } from "./QuestionSubmit";
+import type { ExaminationQuestionSubmit } from "./ExaminationQuestionSubmit";
 
 export type ExaminationSubmitAddRequest = {
     examinationId?: number;
-    questionSubmitList?: Array<QuestionSubmit>;
+    examinationQuestionSubmitList?: Array<ExaminationQuestionSubmit>;
     submitLanguage?: string;
 };
 

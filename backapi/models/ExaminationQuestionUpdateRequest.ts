@@ -8,7 +8,7 @@ import type { JudgeConfig } from "./JudgeConfig";
 export type ExaminationQuestionUpdateRequest = {
     answer?: string;
     content?: string;
-    examinationQuestionId?: number;
+    id?: number;
     judgeCase?: Array<JudgeCase>;
     judgeConfig?: JudgeConfig;
     tags?: Array<string>;

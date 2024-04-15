@@ -2,7 +2,7 @@
   <div id="viewQuestionView">
     <a-row :gutter="[24, 24]">
       <a-col :md="12" :xs="24">
-        <a-tabs default-active-key="question">
+        <a-tabs default-active-key="question" lazy-load>
           <a-tab-pane key="question" title="题目">
             <a-card v-if="question" :title="question.title">
               <a-descriptions

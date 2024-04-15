@@ -52,7 +52,7 @@
         <a-link
           status="normal"
           style="color: black"
-          @click="toExaminationPage(record)"
+          @click="toExaminationQuestionPage(record)"
           >{{ record.id }}
         </a-link>
       </template>
@@ -71,7 +71,7 @@
       </template>
       <template #optional="{ record }">
         <a-space>
-          <a-button status="normal" @click="doEditQuestionList(record)"
+          <a-button status="normal" @click="toExaminationQuestionPage(record)"
             >查看题目</a-button
           >
           <a-button type="primary" @click="doUpdate(record)">修改</a-button>
@@ -254,7 +254,8 @@ const doUpdate = (examination: Examination) => {
 /**
  * 查看套题的题目列表
  */
-const doEditQuestionList = (examination: Examination) => {
+const toExaminationQuestionPage = (examination: Examination) => {
+  console.log(examination.id);
   router.push({
     path: `/examination/question_list/manage`,
     query: {
