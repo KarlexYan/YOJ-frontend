@@ -129,6 +129,22 @@ export class QuestionControllerService {
         });
     }
     /**
+     * getQuestionVOByRandom
+     * @returns BaseResponse_QuestionVO_ OK
+     * @throws ApiError
+     */
+    public static getQuestionVoByRandomUsingGet(): CancelablePromise<BaseResponse_QuestionVO_> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/question/get/vo/random',
+            errors: {
+                401: `Unauthorized`,
+                403: `Forbidden`,
+                404: `Not Found`,
+            },
+        });
+    }
+    /**
      * listQuestionByPage
      * @param questionQueryRequest questionQueryRequest
      * @returns BaseResponse_Page_Question_ OK

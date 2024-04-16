@@ -1,5 +1,29 @@
 <template>
   <div id="browseQuestionView">
+    <a-card
+      hoverable
+      :style="{ width: '800px', marginBottom: '20px', margin: '20px auto' }"
+    >
+      <div
+        :style="{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+        }"
+      >
+        <span
+          :style="{
+            display: 'flex',
+            alignItems: 'center',
+            color: '#1D2129',
+            fontSize: '18px',
+          }"
+        >
+          <a-typography-text>每日一题</a-typography-text>
+        </span>
+        <a-link @click="toRandomQuestion">做题</a-link>
+      </div>
+    </a-card>
     <a-form :model="searchParams" layout="inline" style="margin-left: 300px">
       <a-form-item
         field="title"
@@ -115,6 +139,19 @@ const loadData = async () => {
     total.value = res.data.total;
   } else {
     message.error("加载失败，" + res.message);
+  }
+};
+
+/**
+ * 每日一题随机跳转
+ */
+const toRandomQuestion = async () => {
+  const res = await QuestionControllerService.getQuestionVoByRandomUsingGet();
+  if (res.code === 0) {
+    const question = res.data as Question;
+    router.push({
+      path: `/question/view/${question.id}`,
+    });
   }
 };
 

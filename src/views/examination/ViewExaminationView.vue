@@ -7,65 +7,65 @@
             <a-tab-pane key="examination" title="套题信息">
               <a-card v-if="examination" :title="examination.title">
                 <MdViewer :value="examination.content || ''" />
-                <template #extra>
-                  <a-space wrap>
-                    <a-tag
-                      v-for="(tag, index) of examination.tags"
-                      :key="index"
-                      color="green"
-                    >
-                      {{ tag }}
-                    </a-tag>
-                  </a-space>
-                </template>
               </a-card>
             </a-tab-pane>
           </a-tabs>
         </a-col>
       </a-row>
     </div>
-    <div id="viewQuestionView">
-      <a-row :gutter="[24, 24]">
-        <a-col :md="12" :xs="24">
-          <a-card v-if="examination" :title="examination.title">
-            <MdViewer :value="examination.content || ''" />
-            <template #extra>
-              <a-space wrap>
-                <a-tag
-                  v-for="(tag, index) of examination.tags"
-                  :key="index"
-                  color="green"
-                >
-                  {{ tag }}
-                </a-tag>
-              </a-space>
-            </template>
-          </a-card>
-        </a-col>
-        <a-col :md="12" :xs="24">
-          <a-form :model="form" layout="inline">
-            <a-form-item
-              field="language"
-              label="编程语言"
-              style="min-width: 240px"
+    <div id="QuestionView">
+      <div
+        v-for="(examinationQuestion, index) in dataList"
+        :key="index"
+        class="examinationQuestionItem"
+      >
+        <a-row :gutter="[24, 24]">
+          <a-col :md="12" :xs="24">
+            <a-card
+              v-if="examinationQuestion"
+              :title="examinationQuestion.title"
             >
-              <a-select
-                v-model="form.submitLanguage"
-                :style="{ width: '320px' }"
-                placeholder="请选择编程语言"
+              <a-descriptions
+                title="判题条件"
+                :column="{ xs: 1, md: 2, lg: 3 }"
               >
-                <a-option>java</a-option>
-                <a-option disabled>敬请其他更多语言</a-option>
-              </a-select>
-            </a-form-item>
-          </a-form>
-          <CodeEditor
-            :language="form.submitLanguage"
-            :value="form.submitCode"
-            :handle-change="changeCode"
-          />
-        </a-col>
-      </a-row>
+                <a-descriptions-item label="时间限制（ms）">
+                  {{ examinationQuestion.judgeConfig.timeLimit ?? 0 }}
+                </a-descriptions-item>
+                <a-descriptions-item label="内存限制（KB）">
+                  {{ examinationQuestion.judgeConfig.memoryLimit ?? 0 }}
+                </a-descriptions-item>
+                <a-descriptions-item label="堆栈限制（KB）">
+                  {{ examinationQuestion.judgeConfig.stackLimit ?? 0 }}
+                </a-descriptions-item>
+              </a-descriptions>
+              <MdViewer :value="examinationQuestion.content || ''" />
+              <template #extra>
+                <a-space wrap>
+                  <a-tag
+                    v-for="(tag, index) of examinationQuestion.tags"
+                    :key="index"
+                    color="green"
+                  >
+                    {{ tag }}
+                  </a-tag>
+                </a-space>
+              </template>
+            </a-card>
+            <a-divider size="0" />
+            <a-button
+              type="primary"
+              style="min-width: 200px; margin-left: 280px"
+              size="large"
+              @click="doSave"
+              >保存代码
+            </a-button>
+          </a-col>
+          <a-col :md="12" :xs="24">
+            <CodeEditor style="max-height: 350px" />
+          </a-col>
+        </a-row>
+      </div>
     </div>
   </div>
 </template>
@@ -75,7 +75,7 @@ import { computed, defineProps, onMounted, ref, withDefaults } from "vue";
 import {
   ExaminationControllerService,
   ExaminationQuestionControllerService,
-  ExaminationSubmitAddRequest,
+  ExaminationQuestionVO,
   ExaminationVO,
   LoginUserVO,
 } from "../../../backapi";
@@ -83,11 +83,11 @@ import message from "@arco-design/web-vue/es/message";
 import MdViewer from "@/components/MdViewer.vue";
 import { useRouter } from "vue-router";
 import { useStore } from "vuex";
+import CodeEditor from "@/components/CodeEditor.vue";
 
 // 获取全局状态管理器
 const store = useStore();
-
-const dataList = ref([]);
+const router = useRouter();
 
 /**
  * 定义组件属性类型
@@ -103,8 +103,11 @@ const props = withDefaults(defineProps<Props>(), {
   id: () => "",
 });
 
-// 拿到脱敏的题目信息
+// 拿到脱敏的套题信息
 const examination = ref<ExaminationVO>();
+// 拿到每道题的题目信息
+const examinationQuestion = ref<ExaminationQuestionVO>();
+const dataList = ref([]);
 
 // 获取到登录用户状态
 const loginUser: LoginUserVO = computed(
@@ -126,49 +129,27 @@ const loadExaminationData = async () => {
 };
 
 /**
- * 加载数据
+ * 加载题目列表
  */
-const loadQuestionData = async () => {
+const loadQuestionList = async () => {
   const res =
     await ExaminationQuestionControllerService.listExaminationQuestionVoByExaminationUsingPost(
       {
-        examinationId: props.id as any,
+        examinationId: props.id as unknown as any,
       }
     );
   if (res.code === 0) {
     dataList.value = res.data;
-  } else {
-    message.error("加载失败，" + res.message);
+    console.log(dataList.value);
   }
 };
-
-/**
- * 代码编辑器 默认代码
- */
-const codeDefaultValue = ref(
-  "public class Main {\n" +
-    "    public static void main(String[] args) {\n" +
-    "        int a = Integer.parseInt(args[0]);\n" +
-    "        int b = Integer.parseInt(args[1]);\n" +
-    "        System.out.println(a + b);\n" +
-    "    }\n" +
-    "}\n"
-);
-
-const form = ref<ExaminationSubmitAddRequest>({
-  examinationId: undefined,
-  submitLanguage: "java",
-  examinationQuestionSubmitList: [],
-});
-
-const router = useRouter();
 
 /**
  * 页面加载，请求数据
  */
 onMounted(() => {
   loadExaminationData();
-  loadQuestionData();
+  loadQuestionList();
 });
 </script>
 
@@ -191,9 +172,8 @@ onMounted(() => {
   margin-bottom: 0 !important;
 }
 
-#viewQuestionView {
-  max-width: 1580px;
-  margin: 30px auto;
+.examinationQuestionItem {
+  margin: 30px 30px;
   box-shadow: 0px 0px 10px rgba(35, 7, 7, 0.21);
   border-radius: 10px;
 }
