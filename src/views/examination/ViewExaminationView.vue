@@ -52,14 +52,6 @@
                 </a-space>
               </template>
             </a-card>
-            <a-divider size="0" />
-            <a-button
-              type="primary"
-              style="min-width: 200px; margin-left: 280px"
-              size="large"
-              @click="doSave"
-              >保存代码
-            </a-button>
           </a-col>
           <a-col :md="12" :xs="24">
             <CodeEditor style="max-height: 350px" />

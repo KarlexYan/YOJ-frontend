@@ -63,7 +63,7 @@
       <template #optional="{ record }">
         <a-space>
           <a-button type="primary" @click="toExaminationPage(record)">
-            做套题
+            查看
           </a-button>
         </a-space>
       </template>
