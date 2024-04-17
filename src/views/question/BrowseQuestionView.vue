@@ -186,7 +186,7 @@ const columns = [
     align: "center",
   },
   {
-    title: "通过率",
+    title: "通过率 (通过/提交)",
     slotName: "acceptedRate",
     align: "center",
   },
