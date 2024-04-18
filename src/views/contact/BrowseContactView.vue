@@ -27,6 +27,24 @@
             <img alt="avatar" src="" />
           </a-avatar>
         </template>
+        <a-space
+          v-if="record.userId == loginUser.id || loginUser.userRole == 'admin'"
+        >
+          <a-popconfirm
+            content="确定要删除此评论吗?"
+            type="error"
+            okText="是"
+            cancelText="否"
+            @cancel="
+              () => {
+                console.log(`已取消`);
+              }
+            "
+            @ok="doDeleteContact(record)"
+          >
+            <a-button type="outline" status="danger">删除</a-button>
+          </a-popconfirm>
+        </a-space>
         <a-divider :margin="10" />
       </a-comment>
     </div>

@@ -38,6 +38,10 @@ export const routes: Array<RouteRecordRaw> = [
         path: "/user/info",
         name: "用户信息",
         component: UserInfoView,
+        meta: {
+          hideInMenu: true,
+          access: AUTH_ENUM.USER || AUTH_ENUM.ADMIN,
+        },
       },
       {
         path: "/user/register",
@@ -146,7 +150,7 @@ export const routes: Array<RouteRecordRaw> = [
     props: true, // 开启接收动态id
     meta: {
       access: AUTH_ENUM.USER || AUTH_ENUM.ADMIN,
-      hideInMenu: false,
+      hideInMenu: true,
     },
   },
   {

@@ -57,15 +57,7 @@
             :key="index"
             :color="colors[index.length % colors.length]"
           >
-            {{
-              `${
-                index === "message"
-                  ? "结果"
-                  : index === "time"
-                  ? "耗时"
-                  : "消耗内存"
-              }`
-            }}
+            {{ `${index === "message" ? "结果" : "耗时"}` }}
             {{ "：" + info }}
           </a-tag>
         </a-space>
