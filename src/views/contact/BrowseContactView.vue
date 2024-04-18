@@ -31,7 +31,7 @@
           v-if="record.userId == loginUser.id || loginUser.userRole == 'admin'"
         >
           <a-popconfirm
-            content="确定要删除此评论吗?"
+            content="确定要删除此动态吗?"
             type="error"
             okText="是"
             cancelText="否"
@@ -40,7 +40,7 @@
                 console.log(`已取消`);
               }
             "
-            @ok="doDeleteContact(record)"
+            @ok="doDelete(record)"
           >
             <a-button type="outline" status="danger">删除</a-button>
           </a-popconfirm>
