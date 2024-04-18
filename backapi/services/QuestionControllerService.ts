@@ -90,7 +90,7 @@ export class QuestionControllerService {
      * @returns BaseResponse_Question_ OK
      * @throws ApiError
      */
-    public static getQuestionByIdUsingGet1(
+    public static getQuestionByIdUsingGet(
         id?: number,
     ): CancelablePromise<BaseResponse_Question_> {
         return __request(OpenAPI, {

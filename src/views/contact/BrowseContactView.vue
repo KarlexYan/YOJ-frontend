@@ -64,6 +64,7 @@
 <script setup lang="ts">
 import { computed, onMounted, ref, watchEffect } from "vue";
 import {
+  Contact,
   ContactControllerService,
   ContactQueryRequest,
   LoginUserVO,
@@ -93,6 +94,22 @@ const loginUser: LoginUserVO = computed(
 let form = ref({
   content: "",
 });
+
+/**
+ * 删除
+ * @param contact
+ */
+const doDelete = async (contact: Contact) => {
+  const res = await ContactControllerService.deleteContactUsingPost({
+    id: contact.id,
+  });
+  if (res.code === 0) {
+    message.success("删除成功");
+    loadData();
+  } else {
+    message.error("删除失败");
+  }
+};
 
 const loadData = async () => {
   const res = await ContactControllerService.listContactVoByPageUsingPost({

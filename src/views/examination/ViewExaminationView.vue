@@ -59,6 +59,13 @@
         </a-row>
       </div>
     </div>
+    <a-button
+      type="primary"
+      style="min-width: 500px; margin-left: 500px"
+      size="large"
+      @click="doSubmit"
+      >提交代码
+    </a-button>
   </div>
 </template>
 
@@ -134,6 +141,17 @@ const loadQuestionList = async () => {
     dataList.value = res.data;
     console.log(dataList.value);
   }
+};
+
+/**
+ * 提交代码
+ */
+const doSubmit = async () => {
+  // 返回题目列表页
+  await router.push({
+    path: "/examination_submit",
+    replace: true,
+  });
 };
 
 /**
